@@ -1,0 +1,19 @@
+{
+  "name": "adhd-app",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/tobiaslafleur/exam-project.git",
+  "author": "Tobias la Fleur",
+  "license": "MIT",
+  "scripts": {
+    "native": "npm run dev --prefix native",
+    "server": "npm run dev --prefix server",
+    "dev": "concurrently \"npm run server\" \"npm run native\"",
+    "install:server": "cd server && yarn",
+    "install:native": "cd native && yarn",
+    "all": "yarn && yarn install:server && yarn install:native"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
