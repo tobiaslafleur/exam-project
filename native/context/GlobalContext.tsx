@@ -1,20 +1,30 @@
 import React, { createContext, useState, ReactNode, useEffect } from "react";
 import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
 
+interface ThemeStyles {
+  background: string;
+  text: string;
+}
+
 interface GlobalContextType {
   user: any;
   setUser: (user: any) => void;
   isDarkMode: boolean;
   toggleTheme: () => void;
-  themeStyles: any;
+  themeStyles: ThemeStyles;
 }
+
+const initialThemeStyles = {
+  background: "#fff",
+  text: "#000",
+};
 
 const initialContextValue: GlobalContextType = {
   user: null,
   setUser: () => {},
   isDarkMode: false,
   toggleTheme: () => {},
-  themeStyles: null,
+  themeStyles: initialThemeStyles,
 };
 
 const styles = StyleSheet.create({
