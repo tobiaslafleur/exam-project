@@ -10,7 +10,14 @@ const Login = () => {
       style={[styles.container, { backgroundColor: themeStyles.background }]}
     >
       <Text style={{ color: themeStyles.text }}>Login</Text>
-      <TouchableOpacity onPress={toggleTheme}>
+      <TouchableOpacity
+        onPress={toggleTheme}
+        style={{
+          backgroundColor: themeStyles.accent,
+          padding: 16,
+          borderRadius: 50,
+        }}
+      >
         <Text style={{ color: themeStyles.text }}>
           {isDarkMode ? "Change to Light Mode" : "Change to Dark Mode"}
         </Text>

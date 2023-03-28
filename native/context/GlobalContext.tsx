@@ -4,6 +4,8 @@ import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
 interface ThemeStyles {
   background: string;
   text: string;
+  secondary: string;
+  accent: string;
 }
 
 interface GlobalContextType {
@@ -15,8 +17,10 @@ interface GlobalContextType {
 }
 
 const initialThemeStyles = {
-  background: "#fff",
-  text: "#000",
+  background: "#E8EDF8",
+  text: "#333",
+  secondary: "#F8FAFF",
+  accent: "#8BC34A",
 };
 
 const initialContextValue: GlobalContextType = {
@@ -30,7 +34,6 @@ const initialContextValue: GlobalContextType = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
   },
 });
 
@@ -40,17 +43,20 @@ interface Props {
 
 const GlobalProvider = ({ children }: Props) => {
   const lightStyles = {
-    background: "#fff",
-    text: "#000",
+    background: "#E8EDF8",
+    text: "#333",
+    secondary: "#F8FAFF",
+    accent: "#8BC34A",
   };
 
   const darkStyles = {
-    background: "#000",
+    background: "#1C2331",
     text: "#fff",
+    secondary: "#333E55",
+    accent: "#8BC34A",
   };
 
-  const [themeStyles, setThemeStyles] =
-    useState<Record<string, string>>(lightStyles);
+  const [themeStyles, setThemeStyles] = useState<ThemeStyles>(lightStyles);
   const [user, setUser] = useState(initialContextValue.user);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
@@ -76,6 +82,10 @@ const GlobalProvider = ({ children }: Props) => {
 
   return (
     <GlobalContext.Provider value={contextValue}>
+      <StatusBar
+        barStyle={isDarkMode ? "light-content" : "dark-content"}
+        backgroundColor={themeStyles.background}
+      />
       <SafeAreaView style={styles.container}>{children}</SafeAreaView>
     </GlobalContext.Provider>
   );

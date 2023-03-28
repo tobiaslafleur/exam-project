@@ -1,3 +1,4 @@
+import React, { StatusBar } from "react-native";
 import { GlobalProvider } from "./context/GlobalContext";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
@@ -5,6 +6,7 @@ import Login from "./screens/Login";
 
 function App() {
   const Stack = createStackNavigator();
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -18,8 +20,10 @@ function App() {
   );
 }
 
-export default () => (
-  <GlobalProvider>
-    <App />
-  </GlobalProvider>
-);
+export default () => {
+  return (
+    <GlobalProvider>
+      <App />
+    </GlobalProvider>
+  );
+};
