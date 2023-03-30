@@ -1,20 +1,10 @@
 import React, { createContext, useState, ReactNode, useEffect } from "react";
 import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
-
-interface ThemeStyles {
-  background: string;
-  text: string;
-  secondary: string;
-  accent: string;
-}
-
-interface GlobalContextType {
-  user: any;
-  setUser: (user: any) => void;
-  isDarkMode: boolean;
-  toggleTheme: () => void;
-  themeStyles: ThemeStyles;
-}
+import {
+  GlobalContextType,
+  Props,
+  ThemeStyles,
+} from "../interfaces/interfaces";
 
 const initialThemeStyles = {
   background: "#E8EDF8",
@@ -37,10 +27,6 @@ const styles = StyleSheet.create({
   },
 });
 
-interface Props {
-  children: ReactNode;
-}
-
 const GlobalProvider = ({ children }: Props) => {
   const lightStyles = {
     background: "#E8EDF8",
@@ -58,7 +44,7 @@ const GlobalProvider = ({ children }: Props) => {
 
   const [themeStyles, setThemeStyles] = useState<ThemeStyles>(lightStyles);
   const [user, setUser] = useState(initialContextValue.user);
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
 
   const toggleTheme = () => {
     setIsDarkMode((prevTheme) => !prevTheme);

@@ -2,20 +2,12 @@ import React, { StatusBar } from "react-native";
 import { GlobalProvider } from "./context/GlobalContext";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import Login from "./screens/Login";
+import BottomTabs from "./components/navigation/BottomTabs";
 
 function App() {
-  const Stack = createStackNavigator();
-
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          component={Login}
-          name="Login"
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
+      <BottomTabs />
     </NavigationContainer>
   );
 }
