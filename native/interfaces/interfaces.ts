@@ -1,3 +1,4 @@
+import { tasks } from "./../tempObjects";
 import { ReactNode } from "react";
 
 interface GlobalContextType {
@@ -6,6 +7,7 @@ interface GlobalContextType {
   isDarkMode: boolean;
   toggleTheme: () => void;
   themeStyles: ThemeStyles;
+  tasks: Task[];
 }
 
 interface ThemeStyles {
@@ -36,6 +38,7 @@ interface User {
   points: number;
 }
 
+<<<<<<< HEAD
 interface Input {
   onChangeText: (value: string) => void;
   title: string;
@@ -69,3 +72,6 @@ export {
   Priority,
   Button,
 };
+=======
+export { Props, ThemeStyles, GlobalContextType, Task, User, Status };
+>>>>>>> 81aa5edbb8b2ff8704c90f8e985bd4bc9f80ee5a
