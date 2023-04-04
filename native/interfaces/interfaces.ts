@@ -5,16 +5,9 @@ interface GlobalContextType {
   setUser: (user: User) => void;
   isDarkMode: boolean;
   toggleTheme: () => void;
-  themeStyles: ThemeStyles;
+  themeStyles: any;
   tasks: Task[];
   setTasks: (tasks: Task[]) => void;
-}
-
-interface ThemeStyles {
-  background: string;
-  text: string;
-  secondary: string;
-  accent: string;
 }
 
 interface Props {
@@ -40,4 +33,4 @@ interface User {
   points: number;
 }
 
-export { Props, ThemeStyles, GlobalContextType, Task, User, Status };
+export { Props, GlobalContextType, Task, User, Status };

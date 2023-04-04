@@ -1,4 +1,4 @@
-export const getGreetings = (name: string): string => {
+export const getGreeting = (name: string): string => {
   const currentTime = new Date();
   const currentHour = currentTime.getHours();
 

@@ -17,6 +17,7 @@ function BottomTabs() {
         tabBarStyle: {
           backgroundColor: themeStyles.secondary,
           borderTopWidth: 0,
+          height: 50,
         },
         tabBarActiveTintColor: themeStyles.accent,
         tabBarInactiveTintColor: themeStyles.text,

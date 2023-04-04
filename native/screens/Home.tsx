@@ -6,12 +6,12 @@ import {
   View,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { GlobalContext } from "../../context/GlobalContext";
+import { GlobalContext } from "../context/GlobalContext";
 import * as Progress from "react-native-progress";
-import { getGreetings } from "../../utils/getGreetings";
-import Tasks from "../../components/Tasks";
-import { createTask, getTasks } from "../../utils/asyncStorage";
-import { useTasks } from "../../utils/useTasks";
+import { getGreeting } from "../utils/getGreeting";
+import Tasks from "../components/Tasks";
+import { createTask, getTasks } from "../utils/asyncStorage";
+import { useTasks } from "../utils/useTasks";
 
 import "react-native-get-random-values";
 import { v4 } from "uuid";
@@ -22,7 +22,7 @@ const Home = () => {
   const [progress, todayTasks, todayTasksCompleted] = useTasks(tasks);
 
   useEffect(() => {
-    if (user) setGreeting(getGreetings(user.firstName));
+    if (user) setGreeting(getGreeting(user.firstName));
   }, [user]);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const Home = () => {
         title: "Clean",
         description: "Go do it now!",
         time: yesterday,
-        priority: "SHOULD",
+        priority: "MUST",
         points: 2,
         status: "NOT_COMPLETED",
       })
