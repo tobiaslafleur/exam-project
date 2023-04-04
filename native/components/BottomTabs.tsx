@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Home from "../screens/Home";
-import NewTask from "../screens/NewTask";
-import Overview from "../screens/Overview";
+import Home from "../screens/MainScreens/Home";
+import NewTask from "../screens/MainScreens/NewTask";
+import Overview from "../screens/MainScreens/Overview";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useContext } from "react";
 import { GlobalContext } from "../context/GlobalContext";
