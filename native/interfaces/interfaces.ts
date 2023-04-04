@@ -28,6 +28,8 @@ interface Task extends React.PropsWithChildren {
   status: Status;
 }
 
+type Status = "COMPLETED" | "NOT_COMPLETED";
+
 interface User {
   firstName: string;
   lastName: string;
@@ -55,17 +57,15 @@ interface Button {
   onPress: () => void;
 }
 
-type Status = "COMPLETED" | "NOT_COMPLETED";
-
 export {
   Props,
   ThemeStyles,
   GlobalContextType,
   Task,
   User,
+  Status,
   Input,
+  TimeAndDay,
   Priority,
   Button,
-  TimeAndDay,
-  Status,
 };
