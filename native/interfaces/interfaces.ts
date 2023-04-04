@@ -1,3 +1,4 @@
+import { tasks } from "./../tempObjects";
 import { ReactNode } from "react";
 
 interface GlobalContextType {
@@ -6,6 +7,7 @@ interface GlobalContextType {
   isDarkMode: boolean;
   toggleTheme: () => void;
   themeStyles: ThemeStyles;
+  tasks: Task[];
 }
 
 interface ThemeStyles {
@@ -25,8 +27,10 @@ interface Task extends React.PropsWithChildren {
   time: Date;
   priority: string;
   points: number;
-  status: string;
+  status: Status;
 }
+
+type Status = "COMPLETED" | "NOT_COMPLETED";
 
 interface User {
   firstName: string;
@@ -34,4 +38,4 @@ interface User {
   points: number;
 }
 
-export { Props, ThemeStyles, GlobalContextType, Task, User };
+export { Props, ThemeStyles, GlobalContextType, Task, User, Status };
