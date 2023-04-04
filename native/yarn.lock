@@ -1701,6 +1701,11 @@
     prompts "^2.4.0"
     semver "^6.3.0"
 
+"@react-native/assets-registry@^0.73.0":
+  version "0.73.0"
+  resolved "https://registry.yarnpkg.com/@react-native/assets-registry/-/assets-registry-0.73.0.tgz#5c5c041772c0a87464df9a62156c93bae8065a7e"
+  integrity sha512-GBLnEpuy08SwY+T6UrVNWkTRXITprKhkeV8Lz6s25HgC9baAYbGG+6zlUqL/D9W/p258QkEPt/psm6FoKOwpSQ==
+
 "@react-native/assets@1.0.0":
   version "1.0.0"
   resolved "https://registry.npmjs.org/@react-native/assets/-/assets-1.0.0.tgz"

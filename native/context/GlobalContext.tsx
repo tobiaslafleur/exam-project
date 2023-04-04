@@ -11,6 +11,7 @@ import {
   ThemeStyles,
   User,
 } from "../interfaces/interfaces";
+import { tasks } from "../tempObjects";
 
 const initialThemeStyles = {
   background: "#E8EDF8",
@@ -29,6 +30,7 @@ const initialContextValue: GlobalContextType = {
   isDarkMode: false,
   toggleTheme: () => {},
   themeStyles: initialThemeStyles,
+  tasks: tasks,
 };
 
 const GlobalProvider = ({ children }: Props) => {
@@ -68,6 +70,7 @@ const GlobalProvider = ({ children }: Props) => {
     isDarkMode,
     toggleTheme,
     themeStyles,
+    tasks,
   };
 
   return (
