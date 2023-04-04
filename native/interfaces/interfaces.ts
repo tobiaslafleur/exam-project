@@ -25,7 +25,7 @@ interface Task extends React.PropsWithChildren {
   time: Date;
   priority: string;
   points: number;
-  status: string;
+  status: Status;
 }
 
 interface User {
@@ -55,6 +55,8 @@ interface Button {
   onPress: () => void;
 }
 
+type Status = "COMPLETED" | "NOT_COMPLETED";
+
 export {
   Props,
   ThemeStyles,
@@ -65,4 +67,5 @@ export {
   Priority,
   Button,
   TimeAndDay,
+  Status,
 };
