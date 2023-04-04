@@ -56,7 +56,6 @@ interface Button {
 
 export {
   Props,
-  ThemeStyles,
   GlobalContextType,
   Task,
   User,
@@ -66,4 +65,3 @@ export {
   Priority,
   Button,
 };
-

@@ -6,12 +6,12 @@ import {
   View,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { GlobalContext } from "../context/GlobalContext";
+import { GlobalContext } from "../../context/GlobalContext";
 import * as Progress from "react-native-progress";
-import { getGreeting } from "../utils/getGreeting";
-import Tasks from "../components/Tasks";
-import { createTask, getTasks } from "../utils/asyncStorage";
-import { useTasks } from "../utils/useTasks";
+import { getGreeting } from "../../utils/getGreeting";
+import Tasks from "../../components/Tasks";
+import { createTask, getTasks } from "../../utils/asyncStorage";
+import { useTasks } from "../../utils/useTasks";
 
 import "react-native-get-random-values";
 import { v4 } from "uuid";
