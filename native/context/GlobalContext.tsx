@@ -1,17 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
-import {
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  TouchableOpacityBase,
-} from "react-native";
-import {
-  GlobalContextType,
-  Props,
-  ThemeStyles,
-  User,
-} from "../interfaces/interfaces";
-import { tasks } from "../tempObjects";
+import { SafeAreaView, StatusBar } from "react-native";
+import { GlobalContextType, Props, Task, User } from "../interfaces/interfaces";
 
 const initialThemeStyles = {
   background: "#E8EDF8",
@@ -30,7 +19,8 @@ const initialContextValue: GlobalContextType = {
   isDarkMode: false,
   toggleTheme: () => {},
   themeStyles: initialThemeStyles,
-  tasks: tasks,
+  tasks: [],
+  setTasks: () => {},
 };
 
 const GlobalProvider = ({ children }: Props) => {
@@ -39,17 +29,30 @@ const GlobalProvider = ({ children }: Props) => {
     text: "#333",
     secondary: "#F8FAFF",
     accent: "#8BC34A",
+    shouldBackground: "#ECDFC6",
+    couldBackground: "#CAE8D0",
+    mustBackground: "#294B21",
+    shouldText: "#D0982C",
+    couldText: "#41B74D",
+    mustText: "#D25252",
   };
 
   const darkStyles = {
-    background: "#1C2331",
-    text: "#fff",
-    secondary: "#333E55",
-    accent: "#8BC34A",
+    background: "rgba(4, 9, 36, 1)",
+    text: "rgba(255, 255, 255, 1)",
+    secondary: "rgba(16, 23, 54, 1)",
+    accent: "rgba(65, 183, 162, 1)",
+    shouldBackground: "rgba(235, 148, 19, 0.35)",
+    couldBackground: "rgba(65, 183, 162, 0.35)",
+    mustBackground: "rgba(223, 84, 84, 0.35)",
+    shouldText: "rgba(235, 148, 19, 1)",
+    couldText: "rgba(65, 183, 162, 1)",
+    mustText: "rgba(223, 84, 84, 1)",
   };
 
-  const [themeStyles, setThemeStyles] = useState<ThemeStyles>(lightStyles);
+  const [themeStyles, setThemeStyles] = useState(lightStyles);
   const [user, setUser] = useState<User>(initialContextValue.user);
+  const [tasks, setTasks] = useState<Task[]>(initialContextValue.tasks);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
 
   const toggleTheme = () => {
@@ -71,13 +74,14 @@ const GlobalProvider = ({ children }: Props) => {
     toggleTheme,
     themeStyles,
     tasks,
+    setTasks,
   };
 
   return (
     <GlobalContext.Provider value={contextValue}>
       <StatusBar
         barStyle={isDarkMode ? "light-content" : "dark-content"}
-        backgroundColor={themeStyles.background}
+        backgroundColor={"red"}
       />
       <SafeAreaView
         style={{ flex: 0, backgroundColor: themeStyles.background }}

@@ -1,19 +1,56 @@
-import { ScrollView, Text, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { GlobalContext } from "../../context/GlobalContext";
+import { GlobalContext } from "../context/GlobalContext";
 import * as Progress from "react-native-progress";
-import { getGreetings } from "../../utils/getGreetings";
-import { useTasks } from "../../utils/useTasks";
-import Tasks from "../../components/Tasks";
+import { getGreeting } from "../utils/getGreeting";
+import Tasks from "../components/Tasks";
+import { createTask, getTasks } from "../utils/asyncStorage";
+import { useTasks } from "../utils/useTasks";
+
+import "react-native-get-random-values";
+import { v4 } from "uuid";
 
 const Home = () => {
-  const { themeStyles, user, tasks } = useContext(GlobalContext);
+  const { themeStyles, user, tasks, setTasks } = useContext(GlobalContext);
   const [greeting, setGreeting] = useState("");
   const [progress, todayTasks, todayTasksCompleted] = useTasks(tasks);
 
   useEffect(() => {
-    if (user) setGreeting(getGreetings(user.firstName));
+    if (user) setGreeting(getGreeting(user.firstName));
   }, [user]);
+
+  useEffect(() => {
+    const fn = async () => {
+      setTasks(await getTasks());
+    };
+
+    fn();
+  }, []);
+
+  const addTask = async () => {
+    var yesterday = (function (d) {
+      d.setDate(d.getDate() - 1);
+      return d;
+    })(new Date());
+
+    setTasks(
+      await createTask({
+        id: v4(),
+        title: "Clean",
+        description: "Go do it now!",
+        time: yesterday,
+        priority: "MUST",
+        points: 2,
+        status: "NOT_COMPLETED",
+      })
+    );
+  };
 
   return (
     <ScrollView
@@ -51,10 +88,30 @@ const Home = () => {
           }
         />
       </View>
+      <TouchableOpacity style={styles.button} onPress={() => addTask()}>
+        <Text>Press Here</Text>
+      </TouchableOpacity>
       <Tasks title="Current tasks" status="NOT_COMPLETED" />
       <Tasks title="Recent tasks" status="COMPLETED" />
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    paddingHorizontal: 10,
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#DDDDDD",
+    padding: 10,
+  },
+  countContainer: {
+    alignItems: "center",
+    padding: 10,
+  },
+});
 
 export default Home;

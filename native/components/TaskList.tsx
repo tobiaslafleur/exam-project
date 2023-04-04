@@ -1,11 +1,16 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Text } from "react-native";
 import { GlobalContext } from "../context/GlobalContext";
 import { Status, Task } from "../interfaces/interfaces";
+import { getTasks } from "../utils/asyncStorage";
 import TaskCard from "./TaskCard";
 
 const TaskList = ({ tasks, status }: { tasks: Task[]; status: Status }) => {
   const { themeStyles } = useContext(GlobalContext);
+
+  useEffect(() => {
+    getTasks();
+  }, []);
 
   if (tasks.length < 1) {
     return (
@@ -31,7 +36,8 @@ const TaskList = ({ tasks, status }: { tasks: Task[]; status: Status }) => {
         if (task.status === status) {
           return (
             <TaskCard
-              key={index}
+              id={task.id}
+              key={task.id}
               title={task.title}
               description={task.description}
               points={task.points}
