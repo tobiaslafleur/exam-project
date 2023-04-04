@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { Task } from "../interfaces/interfaces";
 import { GlobalContext } from "../context/GlobalContext";
 import { formatRelative } from "date-fns";
-import { sv } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 
 const TaskCard = ({ title, description, time, priority }: Task) => {
   const { themeStyles } = useContext(GlobalContext);
@@ -41,7 +41,7 @@ const TaskCard = ({ title, description, time, priority }: Task) => {
             paddingBottom: 5,
           }}
         >
-          {formatRelative(new Date(time), new Date(), { locale: sv })}
+          {formatRelative(new Date(time), new Date(), { locale: enUS })}
         </Text>
         <Text
           style={{
@@ -55,11 +55,7 @@ const TaskCard = ({ title, description, time, priority }: Task) => {
             fontWeight: "600",
           }}
         >
-          {priority === "SHOULD"
-            ? "BORDE"
-            : priority === "COULD"
-            ? "KAN"
-            : "MÅSTE"}
+          {priority}
         </Text>
       </View>
       <Text
@@ -72,11 +68,13 @@ const TaskCard = ({ title, description, time, priority }: Task) => {
       >
         {title}
       </Text>
-      <Text
-        style={{ fontSize: 14, fontWeight: "300", color: themeStyles.text }}
-      >
-        {description}
-      </Text>
+      {description !== "" && (
+        <Text
+          style={{ fontSize: 14, fontWeight: "300", color: themeStyles.text }}
+        >
+          {description}
+        </Text>
+      )}
     </View>
   );
 };

@@ -1,15 +1,20 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useContext, useState } from "react";
-import { Priority } from "../interfaces/interfaces";
+import { Priority, TaskRank } from "../interfaces/interfaces";
 import { GlobalContext } from "../context/GlobalContext";
 
 const CustomPriority = ({ title, onPress }: Priority) => {
-  const [selected, setSelected] = useState<string>("could");
+  const [selected, setSelected] = useState<TaskRank>("COULD");
   const { themeStyles } = useContext(GlobalContext);
   return (
-    <View style={{}}>
+    <View style={{ paddingBottom: 35 }}>
       <Text
-        style={{ fontSize: 16, fontWeight: "700", color: themeStyles.text }}
+        style={{
+          fontSize: 20,
+          fontWeight: "700",
+          color: themeStyles.text,
+          paddingBottom: 20,
+        }}
       >
         {title}
       </Text>
@@ -25,18 +30,20 @@ const CustomPriority = ({ title, onPress }: Priority) => {
           style={[
             styles.priorityBox,
             {
-              backgroundColor: "#72D859",
-              opacity: selected === "could" ? 1 : 0.1,
+              backgroundColor: themeStyles.couldBackground,
+              opacity: selected === "COULD" ? 1 : 0.3,
               borderTopLeftRadius: 5,
               borderBottomLeftRadius: 5,
             },
           ]}
           onPress={() => {
-            onPress("could");
-            setSelected("could");
+            onPress("COULD");
+            setSelected("COULD");
           }}
         >
-          <Text style={{ fontSize: 14, fontWeight: "700", color: "#41B74D" }}>
+          <Text
+            style={{ fontSize: 14, fontWeight: "700", color: themeStyles.text }}
+          >
             COULD
           </Text>
         </TouchableOpacity>
@@ -44,16 +51,18 @@ const CustomPriority = ({ title, onPress }: Priority) => {
           style={[
             styles.priorityBox,
             {
-              backgroundColor: "#FAB630",
-              opacity: selected === "should" ? 1 : 0.1,
+              backgroundColor: themeStyles.shouldBackground,
+              opacity: selected === "SHOULD" ? 1 : 0.3,
             },
           ]}
           onPress={() => {
-            onPress("should");
-            setSelected("should");
+            onPress("SHOULD");
+            setSelected("SHOULD");
           }}
         >
-          <Text style={{ fontSize: 14, fontWeight: "700", color: "#D0982C" }}>
+          <Text
+            style={{ fontSize: 14, fontWeight: "700", color: themeStyles.text }}
+          >
             SHOULD
           </Text>
         </TouchableOpacity>
@@ -61,18 +70,20 @@ const CustomPriority = ({ title, onPress }: Priority) => {
           style={[
             styles.priorityBox,
             {
-              backgroundColor: "#E8645C",
-              opacity: selected === "must" ? 1 : 0.1,
+              backgroundColor: themeStyles.mustBackground,
+              opacity: selected === "MUST" ? 1 : 0.3,
               borderTopRightRadius: 5,
               borderBottomRightRadius: 5,
             },
           ]}
           onPress={() => {
-            onPress("must");
-            setSelected("must");
+            onPress("MUST");
+            setSelected("MUST");
           }}
         >
-          <Text style={{ fontSize: 14, fontWeight: "700", color: "#B03B3B" }}>
+          <Text
+            style={{ fontSize: 14, fontWeight: "700", color: themeStyles.text }}
+          >
             MUST
           </Text>
         </TouchableOpacity>

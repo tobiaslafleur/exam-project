@@ -38,14 +38,15 @@ interface Input {
   title: string;
   value: string;
   placeholder: string;
+  multiline?: boolean;
 }
 
-interface TimeAndDay {
-  title: string;
+interface Datetime {
+  onSetDate: (datetime: Date) => void;
 }
 
 interface Priority {
-  onPress: (value: string) => void;
+  onPress: (value: TaskRank) => void;
   title: string;
 }
 
@@ -61,7 +62,8 @@ export {
   User,
   Status,
   Input,
-  TimeAndDay,
+  Datetime,
   Priority,
   Button,
+  TaskRank,
 };

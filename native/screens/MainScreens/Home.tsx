@@ -10,11 +10,8 @@ import { GlobalContext } from "../../context/GlobalContext";
 import * as Progress from "react-native-progress";
 import { getGreeting } from "../../utils/getGreeting";
 import Tasks from "../../components/Tasks";
-import { createTask, getTasks } from "../../utils/asyncStorage";
+import { clearStorage, createTask, getTasks } from "../../utils/asyncStorage";
 import { useTasks } from "../../utils/useTasks";
-
-import "react-native-get-random-values";
-import { v4 } from "uuid";
 
 const Home = () => {
   const { themeStyles, user, tasks, setTasks } = useContext(GlobalContext);
@@ -34,22 +31,9 @@ const Home = () => {
   }, []);
 
   const addTask = async () => {
-    var yesterday = (function (d) {
-      d.setDate(d.getDate() - 1);
-      return d;
-    })(new Date());
+    const tasks = clearStorage();
 
-    setTasks(
-      await createTask({
-        id: v4(),
-        title: "Clean",
-        description: "Go do it now!",
-        time: yesterday,
-        priority: "MUST",
-        points: 2,
-        status: "NOT_COMPLETED",
-      })
-    );
+    setTasks(tasks);
   };
 
   return (
@@ -88,11 +72,11 @@ const Home = () => {
           }
         />
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => addTask()}>
-        <Text>Press Here</Text>
-      </TouchableOpacity>
       <Tasks title="Current tasks" status="NOT_COMPLETED" />
       <Tasks title="Recent tasks" status="COMPLETED" />
+      <TouchableOpacity style={styles.button} onPress={() => addTask()}>
+        <Text>Reset Async Storage</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -107,6 +91,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#DDDDDD",
     padding: 10,
+    marginTop: 20,
   },
   countContainer: {
     alignItems: "center",

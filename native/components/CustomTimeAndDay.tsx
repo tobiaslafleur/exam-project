@@ -1,36 +1,61 @@
-import { StyleSheet, Text, View, Button } from "react-native";
-import React, { useContext, useState } from "react";
-import { GlobalContext } from "../context/GlobalContext";
-import DatePicker from "react-native-date-picker";
+import { Text, View, Button } from "react-native";
+import React, { useState } from "react";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { format } from "date-fns";
+import { Datetime } from "../interfaces/interfaces";
 
-const CustomTimeAndDay = () => {
-  const { themeStyles } = useContext(GlobalContext);
-  const [open, setOpen] = useState<boolean>(false);
-  const [date, setDate] = useState<Date>(new Date());
+const CustomTimeAndDay = ({ onSetDate }: Datetime) => {
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [datePickerVisible, setDatePickerVisible] = useState(false);
+
+  const showDatePicker = () => {
+    setDatePickerVisible(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisible(false);
+  };
+
+  const handleConfirm = (date: Date) => {
+    date.setSeconds(0);
+    setSelectedDate(date);
+    onSetDate(date);
+    hideDatePicker();
+  };
+
   return (
-    <View>
+    <View
+      style={{
+        padding: 20,
+        flex: 1,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <Text
-        style={{ fontSize: 16, fontWeight: "700", color: themeStyles.text }}
+        style={{
+          fontSize: 24,
+          fontWeight: "bold",
+          marginBottom: 20,
+          color: "white",
+        }}
       >
-        Set time and date
+        {selectedDate
+          ? format(selectedDate, "dd/LL/yyyy - HH:mm")
+          : "No date selected"}
       </Text>
-      <Button title="Open" onPress={() => setOpen(true)} />
-      <DatePicker
-        modal
-        open={open}
-        date={date}
-        onConfirm={(date) => {
-          setOpen(false);
-          setDate(date);
-        }}
-        onCancel={() => {
-          setOpen(false);
-        }}
+      <Button title="Select a date" onPress={showDatePicker} />
+      <DateTimePickerModal
+        date={selectedDate}
+        isVisible={datePickerVisible}
+        mode="datetime"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+        locale={"sv"}
       />
     </View>
   );
 };
 
 export default CustomTimeAndDay;
-
-const styles = StyleSheet.create({});
