@@ -38,4 +38,36 @@ interface User {
   points: number;
 }
 
-export { Props, ThemeStyles, GlobalContextType, Task, User, Status };
+interface Input {
+  onChangeText: (value: string) => void;
+  title: string;
+  value: string;
+  placeholder: string;
+}
+
+interface TimeAndDay {
+  title: string;
+}
+
+interface Priority {
+  onPress: (value: string) => void;
+  title: string;
+}
+
+interface Button {
+  title: string;
+  onPress: () => void;
+}
+
+export {
+  Props,
+  ThemeStyles,
+  GlobalContextType,
+  Task,
+  User,
+  Status,
+  Input,
+  TimeAndDay,
+  Priority,
+  Button,
+};
