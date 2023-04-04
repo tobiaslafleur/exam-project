@@ -8,21 +8,25 @@ export const useTasks = (tasks: Task[]) => {
   const [progress, setProgress] = useState<number>(0);
 
   useEffect(() => {
-    tasks.forEach((task) => {
-      if (isToday(task.time)) {
-        setTodayTasks(() => todayTasks + 1);
+    let daily = 0;
+    let dailyCompleted = 0;
+
+    tasks.map((task) => {
+      if (isToday(new Date(task.time))) {
+        daily = daily + 1;
 
         if (task.status === "COMPLETED") {
-          setTodayTasksCompleted(() => todayTasksCompleted + 1);
+          dailyCompleted = dailyCompleted + 1;
         }
-
-        const currProgress =
-          todayTasks > 0 ? todayTasksCompleted / todayTasks : 0;
-
-        setProgress(currProgress);
       }
     });
-  }, []);
+
+    const currProgress = daily > 0 ? dailyCompleted / daily : 0;
+
+    setTodayTasks(daily);
+    setTodayTasksCompleted(dailyCompleted);
+    setProgress(currProgress);
+  }, [tasks]);
 
   return [progress, todayTasks, todayTasksCompleted];
 };

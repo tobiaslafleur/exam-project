@@ -1,17 +1,13 @@
 import React, { createContext, useState, useEffect } from "react";
-import {
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  TouchableOpacityBase,
-} from "react-native";
+import { SafeAreaView, StatusBar } from "react-native";
 import {
   GlobalContextType,
   Props,
+  Task,
   ThemeStyles,
   User,
 } from "../interfaces/interfaces";
-import { tasks } from "../tempObjects";
+import { getTasks } from "../utils/asyncStorage";
 
 const initialThemeStyles = {
   background: "#E8EDF8",
@@ -30,7 +26,8 @@ const initialContextValue: GlobalContextType = {
   isDarkMode: false,
   toggleTheme: () => {},
   themeStyles: initialThemeStyles,
-  tasks: tasks,
+  tasks: [],
+  setTasks: () => {},
 };
 
 const GlobalProvider = ({ children }: Props) => {
@@ -50,6 +47,7 @@ const GlobalProvider = ({ children }: Props) => {
 
   const [themeStyles, setThemeStyles] = useState<ThemeStyles>(lightStyles);
   const [user, setUser] = useState<User>(initialContextValue.user);
+  const [tasks, setTasks] = useState<Task[]>(initialContextValue.tasks);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
 
   const toggleTheme = () => {
@@ -71,6 +69,7 @@ const GlobalProvider = ({ children }: Props) => {
     toggleTheme,
     themeStyles,
     tasks,
+    setTasks,
   };
 
   return (

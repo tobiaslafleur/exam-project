@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { View, Text } from "react-native";
 import { GlobalContext } from "../context/GlobalContext";
 import { Status } from "../interfaces/interfaces";
 import TaskList from "./TaskList";
