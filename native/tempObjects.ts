@@ -1,9 +1,3 @@
-export const user = {
-  firstname: "Alexandros",
-  lastname: "Karakitsos",
-  points: 38,
-};
-
 export const tasks = [
   {
     title: "Cook dinner",
@@ -14,7 +8,7 @@ export const tasks = [
     status: "COMPLETED",
   },
   {
-    title: "FDak dinner",
+    title: "Cook dinner",
     description: "Cook dinner pls i am hangry",
     time: new Date("2023-03-30T18:00:00"),
     priority: "Must",
@@ -34,6 +28,14 @@ export const tasks = [
     description: "Cook dinner pls i am hangry",
     time: new Date("2023-03-28T15:00:00"),
     priority: "Should",
+    points: 1,
+    status: "NOT_COMPLETED",
+  },
+  {
+    title: "Cook dinner",
+    description: "Cook dinner pls i am hangry",
+    time: new Date("2023-03-27T15:00:00"),
+    priority: "Could",
     points: 1,
     status: "COMPLETED",
   },

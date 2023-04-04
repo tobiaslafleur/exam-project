@@ -1,102 +1,27 @@
-import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
-import { user, tasks } from "../../tempObjects";
-import { Task } from "../../interfaces/interfaces";
-import TaskCard from "../../components/task/TaskCard";
+import { tasks } from "../../tempObjects";
+import TaskCard from "../../components/TaskCard";
 import * as Progress from "react-native-progress";
+import { getGreeting } from "../../utils/getGreetings";
+import { useTasks } from "../../utils/useTasks";
 
 const Home = () => {
-  const { themeStyles } = useContext(GlobalContext);
+  const { themeStyles, user } = useContext(GlobalContext);
   const [greeting, setGreeting] = useState("");
-  const [recent, setRecent] = useState<Task[]>([]);
-  const [current, setCurrent] = useState<Task[]>([]);
-  const [todayTasks, setTodayTasks] = useState<number>(0);
-  const [todayTasksCompleted, setTodayTasksCompleted] = useState<number>(0);
-  const [progress, setProgress] = useState<number>(0);
-  const name = user.firstname; //Temp. Ersätts förmodligen med useContext user.name
-
-  /**
-   * Beräknar hur många procent av dagens tasks som är avklarade
-   */
-  const calcProgress = (): void => {
-    let todayTasks = 0;
-    let todayTasksCompleted = 0;
-
-    tasks.forEach((task) => {
-      if (isSameDayAsToday(task)) {
-        todayTasks++;
-        task.status === "COMPLETED" ? todayTasksCompleted++ : null;
-      }
-    });
-
-    const progress = todayTasks > 0 ? todayTasksCompleted / todayTasks : 0;
-    setTodayTasks(todayTasks);
-    setTodayTasksCompleted(todayTasksCompleted);
-    setProgress(progress);
-  };
-
-  /**
-   * Sätter vilken hälsning som ska visas beroende på tid
-   */
-  const getGreeting = (): void => {
-    const currentTime = new Date();
-    const currentHour = currentTime.getHours();
-
-    if (currentHour < 12) {
-      setGreeting(`Good morning, ${name}!`);
-    } else if (currentHour < 18) {
-      setGreeting(`Good afternoon, ${name}!`);
-    } else if (currentHour < 22) {
-      setGreeting(`Good evening, ${name}!`);
-    } else {
-      setGreeting(`Good night, ${name}!`);
-    }
-  };
-
-  /**
-   * Kollar om tasks dag är samma dag som idag (kanske behöver fixas)
-   */
-  function isSameDayAsToday(task: Task): boolean {
-    const now = new Date();
-    return (
-      task.time.getFullYear() === now.getFullYear() &&
-      task.time.getMonth() === now.getMonth() &&
-      task.time.getDate() === now.getDate()
-    );
-  }
-
-  /**
-   * Separerar tasks beroende på om de är klara eller inte (kanske behöver fixas)
-   */
-  const seperateTasks = (): void => {
-    //Check for todays tasks and the 5(?) most recent tasks
-    const todayTasks: Task[] = [];
-    const recentTasks: Task[] = [];
-    tasks.forEach((task) => {
-      if (task.status === "COMPLETED") {
-        recentTasks.push(task);
-        return;
-      }
-      if (isSameDayAsToday(task)) todayTasks.push(task);
-      else recentTasks.push(task);
-    });
-    setRecent(recentTasks);
-    setCurrent(todayTasks);
-  };
+  const [progress, todayTasks, todayTasksCompleted] = useTasks(tasks);
 
   useEffect(() => {
-    if (name) getGreeting();
-    seperateTasks();
-    calcProgress();
-  }, [name]);
+    if (user) setGreeting(getGreeting(user.firstName));
+  }, [user]);
 
   return (
     <ScrollView
-      contentContainerStyle={[
-        styles.container,
-        { backgroundColor: themeStyles.background },
-      ]}
+      contentContainerStyle={[styles.container]}
+      style={{
+        backgroundColor: themeStyles.background,
+      }}
     >
       <Text
         style={{ fontSize: 24, fontWeight: "700", color: themeStyles.text }}
@@ -109,10 +34,14 @@ const Home = () => {
           today!
         </Text>
         <Progress.Bar
+          style={{ opacity: 0.4 }}
           width={null}
-          progress={progress}
+          progress={0.4}
           height={15}
           borderRadius={15}
+          unfilledColor={"gray"}
+          borderWidth={0}
+          color={"transparent"}
         />
       </View>
       <View style={styles.innerContainer}>
@@ -134,21 +63,24 @@ const Home = () => {
           </Text>
         </View>
 
-        {current?.length > 0 ? (
+        {tasks?.length > 0 ? (
           <>
-            {current?.map((task) => {
-              return (
-                <TaskCard
-                  title={task.title}
-                  description={task.description}
-                  points={task.points}
-                  time={task.time}
-                  priority={task.priority}
-                  status={task.status}
-                >
-                  {task.title}
-                </TaskCard>
-              );
+            {tasks?.map((task, i) => {
+              if (task.status === "NOT_COMPLETED") {
+                return (
+                  <TaskCard
+                    key={i}
+                    title={task.title}
+                    description={task.description}
+                    points={task.points}
+                    time={task.time}
+                    priority={task.priority}
+                    status={task.status}
+                  >
+                    {task.title}
+                  </TaskCard>
+                );
+              }
             })}
           </>
         ) : (
@@ -185,21 +117,24 @@ const Home = () => {
             Show more
           </Text>
         </View>
-        {recent?.length > 0 ? (
+        {tasks?.length > 0 ? (
           <>
-            {recent?.map((task) => {
-              return (
-                <TaskCard
-                  title={task.title}
-                  description={task.description}
-                  points={task.points}
-                  time={task.time}
-                  priority={task.priority}
-                  status={task.status}
-                >
-                  {task.title}
-                </TaskCard>
-              );
+            {tasks?.map((task, i) => {
+              if (task.status === "COMPLETED") {
+                return (
+                  <TaskCard
+                    key={i}
+                    title={task.title}
+                    description={task.description}
+                    points={task.points}
+                    time={task.time}
+                    priority={task.priority}
+                    status={task.status}
+                  >
+                    {task.title}
+                  </TaskCard>
+                );
+              }
             })}
           </>
         ) : (
@@ -226,8 +161,11 @@ export default Home;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
-    minHeight: Dimensions.get("window").height - 50,
+    paddingTop: 25,
+    paddingBottom: 25,
+    paddingRight: 20,
+    paddingLeft: 20,
+    minHeight: "100%",
   },
 
   innerContainer: {

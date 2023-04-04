@@ -1,9 +1,15 @@
-import React, { createContext, useState, ReactNode, useEffect } from "react";
-import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
+import React, { createContext, useState, useEffect } from "react";
+import {
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  TouchableOpacityBase,
+} from "react-native";
 import {
   GlobalContextType,
   Props,
   ThemeStyles,
+  User,
 } from "../interfaces/interfaces";
 
 const initialThemeStyles = {
@@ -14,18 +20,16 @@ const initialThemeStyles = {
 };
 
 const initialContextValue: GlobalContextType = {
-  user: null,
+  user: {
+    firstName: "Alexandros",
+    lastName: "Karakitsos",
+    points: 0,
+  },
   setUser: () => {},
   isDarkMode: false,
   toggleTheme: () => {},
   themeStyles: initialThemeStyles,
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 const GlobalProvider = ({ children }: Props) => {
   const lightStyles = {
@@ -43,7 +47,7 @@ const GlobalProvider = ({ children }: Props) => {
   };
 
   const [themeStyles, setThemeStyles] = useState<ThemeStyles>(lightStyles);
-  const [user, setUser] = useState(initialContextValue.user);
+  const [user, setUser] = useState<User>(initialContextValue.user);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
 
   const toggleTheme = () => {
@@ -72,7 +76,12 @@ const GlobalProvider = ({ children }: Props) => {
         barStyle={isDarkMode ? "light-content" : "dark-content"}
         backgroundColor={themeStyles.background}
       />
-      <SafeAreaView style={styles.container}>{children}</SafeAreaView>
+      <SafeAreaView
+        style={{ flex: 0, backgroundColor: themeStyles.background }}
+      />
+      <SafeAreaView style={{ flex: 1, backgroundColor: themeStyles.secondary }}>
+        {children}
+      </SafeAreaView>
     </GlobalContext.Provider>
   );
 };

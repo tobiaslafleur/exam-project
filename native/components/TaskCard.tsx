@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { Task } from "../../interfaces/interfaces";
-import { GlobalContext } from "../../context/GlobalContext";
+import { Task } from "../interfaces/interfaces";
+import { GlobalContext } from "../context/GlobalContext";
 
 const TaskCard = ({
   title,

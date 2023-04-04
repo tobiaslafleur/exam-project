@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 
 interface GlobalContextType {
-  user: any;
-  setUser: (user: any) => void;
+  user: User;
+  setUser: (user: User) => void;
   isDarkMode: boolean;
   toggleTheme: () => void;
   themeStyles: ThemeStyles;
@@ -28,4 +28,10 @@ interface Task extends React.PropsWithChildren {
   status: string;
 }
 
-export { Props, ThemeStyles, GlobalContextType, Task };
+interface User {
+  firstName: string;
+  lastName: string;
+  points: number;
+}
+
+export { Props, ThemeStyles, GlobalContextType, Task, User };
