@@ -13,6 +13,7 @@ function BottomTabs() {
 
   return (
     <Tab.Navigator
+      initialRouteName="Home"
       screenOptions={{
         tabBarStyle: {
           backgroundColor: themeStyles.secondary,

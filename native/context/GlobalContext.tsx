@@ -35,6 +35,7 @@ const GlobalProvider = ({ children }: Props) => {
     shouldText: "#D0982C",
     couldText: "#41B74D",
     mustText: "#D25252",
+    placeholderText: "rgba(255, 255, 255, 0.5)",
   };
 
   const darkStyles = {
@@ -48,6 +49,7 @@ const GlobalProvider = ({ children }: Props) => {
     shouldText: "rgba(235, 148, 19, 1)",
     couldText: "rgba(65, 183, 162, 1)",
     mustText: "rgba(223, 84, 84, 1)",
+    placeholderText: "rgba(255, 255, 255, 0.5)",
   };
 
   const [themeStyles, setThemeStyles] = useState(lightStyles);

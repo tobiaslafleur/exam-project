@@ -44,9 +44,7 @@ const TaskList = ({ tasks, status }: { tasks: Task[]; status: Status }) => {
               time={task.time}
               priority={task.priority}
               status={task.status}
-            >
-              {task.title}
-            </TaskCard>
+            />
           );
         }
       })}

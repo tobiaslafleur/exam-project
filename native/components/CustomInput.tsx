@@ -3,22 +3,58 @@ import React, { useContext } from "react";
 import { Input } from "../interfaces/interfaces";
 import { GlobalContext } from "../context/GlobalContext";
 
-const CustomInput = ({ onChangeText, title, value, placeholder }: Input) => {
+const CustomInput = ({
+  onChangeText,
+  title,
+  value,
+  placeholder,
+  multiline,
+}: Input) => {
   const { themeStyles } = useContext(GlobalContext);
+
   return (
-    <View>
+    <View style={{ paddingBottom: 20 }}>
       <Text
-        style={{ fontSize: 16, fontWeight: "700", color: themeStyles.text }}
+        style={{
+          fontSize: 20,
+          fontWeight: "700",
+          color: themeStyles.text,
+          paddingBottom: 10,
+        }}
       >
         {title}
       </Text>
       <View>
-        <TextInput
-          placeholderTextColor={themeStyles.text}
-          placeholder={placeholder}
-          value={value}
-          onChangeText={onChangeText}
-        ></TextInput>
+        {multiline ? (
+          <TextInput
+            multiline
+            placeholderTextColor={themeStyles.placeholderText}
+            placeholder={placeholder}
+            value={value}
+            onChangeText={onChangeText}
+            style={{
+              height: 140,
+              padding: 10,
+              borderRadius: 5,
+              color: themeStyles.text,
+              backgroundColor: themeStyles.secondary,
+            }}
+          />
+        ) : (
+          <TextInput
+            placeholderTextColor={themeStyles.placeholderText}
+            placeholder={placeholder}
+            value={value}
+            onChangeText={onChangeText}
+            style={{
+              height: 40,
+              padding: 10,
+              borderRadius: 5,
+              color: themeStyles.text,
+              backgroundColor: themeStyles.secondary,
+            }}
+          />
+        )}
       </View>
     </View>
   );

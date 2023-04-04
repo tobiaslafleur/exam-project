@@ -38,4 +38,6 @@ export const getTasks = async () => {
 
 export const clearStorage = () => {
   AsyncStorage.removeItem("@exam/tasks");
+
+  return [];
 };
