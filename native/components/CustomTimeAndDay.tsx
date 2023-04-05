@@ -53,6 +53,8 @@ const CustomTimeAndDay = ({ onSetDate }: Datetime) => {
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
         locale={"sv"}
+        confirmTextIOS={"Välj"}
+        cancelTextIOS={"Avbryt"}
       />
     </View>
   );

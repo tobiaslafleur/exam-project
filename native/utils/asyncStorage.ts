@@ -26,6 +26,57 @@ export const getTask = async (id: string) => {
   });
 };
 
+export const completeTask = async (id: string) => {
+  const currentTasks = await getTasks();
+
+  currentTasks.map((task) => {
+    if (task.id === id) {
+      task.status = "COMPLETED";
+    }
+  });
+
+  const json = JSON.stringify(currentTasks);
+
+  await setItem(json);
+
+  return currentTasks;
+};
+
+export const postPoneTask = async (id: string) => {
+  const currentTasks = await getTasks();
+
+  currentTasks.map((task) => {
+    if (task.id === id) {
+      const newDate = new Date(task.time);
+      newDate.setDate(newDate.getDate() + 1);
+
+      task.time = newDate;
+    }
+  });
+
+  const json = JSON.stringify(currentTasks);
+
+  await setItem(json);
+
+  return currentTasks;
+};
+
+export const removeTask = async (id: string) => {
+  const currentTasks = await getTasks();
+
+  currentTasks.map((task, index) => {
+    if (task.id === id) {
+      currentTasks.splice(index, 1);
+    }
+  });
+
+  const json = JSON.stringify(currentTasks);
+
+  await setItem(json);
+
+  return currentTasks;
+};
+
 export const getTasks = async () => {
   const unparsed = await getItem();
 

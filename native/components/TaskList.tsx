@@ -1,12 +1,23 @@
 import { useContext, useEffect } from "react";
-import { Text } from "react-native";
+import { Animated, Text, TouchableOpacity, View } from "react-native";
+import { Swipeable } from "react-native-gesture-handler";
 import { GlobalContext } from "../context/GlobalContext";
-import { Status, Task } from "../interfaces/interfaces";
-import { getTasks } from "../utils/asyncStorage";
+import { Status, Task, UpdateMethod } from "../interfaces/interfaces";
+import {
+  completeTask,
+  getTasks,
+  postPoneTask,
+  removeTask,
+} from "../utils/asyncStorage";
 import TaskCard from "./TaskCard";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+
+let styles: any = null;
 
 const TaskList = ({ tasks, status }: { tasks: Task[]; status: Status }) => {
-  const { themeStyles } = useContext(GlobalContext);
+  const { themeStyles, setTasks } = useContext(GlobalContext);
+
+  styles = themeStyles;
 
   useEffect(() => {
     getTasks();
@@ -30,25 +41,142 @@ const TaskList = ({ tasks, status }: { tasks: Task[]; status: Status }) => {
     );
   }
 
+  const handleOnPress = async (method: UpdateMethod, id: string) => {
+    if (method === "COMPLETE") setTasks(await completeTask(id));
+    if (method === "POSTPONE") setTasks(await postPoneTask(id));
+    if (method === "REMOVE") setTasks(await removeTask(id));
+  };
+
   return (
     <>
       {tasks.map((task, index) => {
         if (task.status === status) {
+          if (status === "COMPLETED") {
+            return (
+              <TaskCard
+                key={task.id}
+                id={task.id}
+                title={task.title}
+                description={task.description}
+                points={task.points}
+                time={task.time}
+                priority={task.priority}
+                status={task.status}
+              />
+            );
+          }
+
           return (
-            <TaskCard
-              id={task.id}
+            <Swipeable
               key={task.id}
-              title={task.title}
-              description={task.description}
-              points={task.points}
-              time={task.time}
-              priority={task.priority}
-              status={task.status}
-            />
+              renderRightActions={(progress, dragX) =>
+                renderRightActions(progress, dragX, task.id, handleOnPress)
+              }
+              renderLeftActions={(progress, dragX) =>
+                renderLeftActions(progress, dragX, task.id, handleOnPress)
+              }
+              friction={1.5}
+              leftThreshold={80}
+              rightThreshold={80}
+              overshootLeft={false}
+              overshootRight={false}
+            >
+              <TaskCard
+                id={task.id}
+                title={task.title}
+                description={task.description}
+                points={task.points}
+                time={task.time}
+                priority={task.priority}
+                status={task.status}
+              />
+            </Swipeable>
           );
         }
       })}
     </>
+  );
+};
+
+const renderRightActions = (
+  progress: any,
+  dragX: any,
+  id: string,
+  handleOnPress: (method: UpdateMethod, id: string) => void
+) => {
+  const scale1 = dragX.interpolate({
+    inputRange: [-140, -100, 0],
+    outputRange: [1, 0, 0],
+  });
+
+  return (
+    <Animated.View
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 15,
+        padding: 5,
+        borderRadius: 5,
+        width: 140,
+        opacity: scale1,
+      }}
+    >
+      <TouchableOpacity
+        style={{
+          marginRight: 15,
+        }}
+        onPress={() => handleOnPress("POSTPONE", id)}
+      >
+        <MaterialCommunityIcons
+          name="arrow-up-thick"
+          color={styles.shouldText}
+          size={40}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleOnPress("REMOVE", id)}>
+        <MaterialCommunityIcons
+          name="trash-can-outline"
+          color={styles.mustText}
+          size={40}
+        />
+      </TouchableOpacity>
+    </Animated.View>
+  );
+};
+
+const renderLeftActions = (
+  progress: any,
+  dragX: any,
+  id: string,
+  handleOnPress: (method: UpdateMethod, id: string) => void
+) => {
+  const scale = dragX.interpolate({
+    inputRange: [60, 100],
+    outputRange: [0, 1],
+  });
+
+  return (
+    <Animated.View
+      style={{
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 15,
+        padding: 5,
+        borderRadius: 5,
+        width: 100,
+        opacity: scale,
+      }}
+    >
+      <TouchableOpacity onPress={() => handleOnPress("COMPLETE", id)}>
+        <MaterialCommunityIcons
+          name="check-bold"
+          color={styles.couldText}
+          size={40}
+        />
+      </TouchableOpacity>
+    </Animated.View>
   );
 };
 

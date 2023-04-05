@@ -60,7 +60,7 @@ const Home = () => {
           today!
         </Text>
         <Progress.Bar
-          style={{ opacity: 0.4 }}
+          style={{ opacity: 0.8 }}
           width={null}
           progress={progress}
           height={15}
@@ -68,7 +68,11 @@ const Home = () => {
           unfilledColor={"gray"}
           borderWidth={0}
           color={
-            progress <= 0.33 ? "red" : progress <= 0.66 ? "orange" : "green"
+            progress <= 0.33
+              ? themeStyles.mustText
+              : progress <= 0.66
+              ? themeStyles.shouldText
+              : themeStyles.couldText
           }
         />
       </View>
