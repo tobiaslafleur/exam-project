@@ -41,6 +41,8 @@ interface Input {
   multiline?: boolean;
 }
 
+type UpdateMethod = "POSTPONE" | "COMPLETE" | "REMOVE";
+
 interface Datetime {
   onSetDate: (datetime: Date) => void;
 }
@@ -66,4 +68,5 @@ export {
   Priority,
   Button,
   TaskRank,
+  UpdateMethod,
 };

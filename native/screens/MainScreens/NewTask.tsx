@@ -57,7 +57,7 @@ const NewTask = ({ navigation }: any) => {
       description: final,
       time: datetime,
       priority: priority,
-      points: 2,
+      points: priority === "COULD" ? 1 : priority === "SHOULD" ? 3 : 5,
       status: "NOT_COMPLETED",
     });
     setTasks(tasks);
