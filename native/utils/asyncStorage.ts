@@ -19,11 +19,11 @@ export const createTask = async (task: Task) => {
 export const getTask = async (id: string) => {
   const currentTasks = await getTasks();
 
-  currentTasks.map((task) => {
-    if (task.id === id) {
-      return task;
+  for (let i = 0; i < currentTasks.length; i++) {
+    if (currentTasks[i].id === id) {
+      return currentTasks[i];
     }
-  });
+  }
 };
 
 export const completeTask = async (id: string) => {

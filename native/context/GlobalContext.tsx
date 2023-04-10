@@ -1,6 +1,12 @@
 import React, { createContext, useState, useEffect } from "react";
 import { SafeAreaView, StatusBar } from "react-native";
-import { GlobalContextType, Props, Task, User } from "../interfaces/interfaces";
+import {
+  GlobalContextType,
+  NotificationsInterface,
+  Props,
+  Task,
+  User,
+} from "../interfaces/interfaces";
 
 const initialThemeStyles = {
   background: "#E8EDF8",
@@ -21,6 +27,8 @@ const initialContextValue: GlobalContextType = {
   themeStyles: initialThemeStyles,
   tasks: [],
   setTasks: () => {},
+  notifications: [],
+  setNotifications: () => {},
 };
 
 const GlobalProvider = ({ children }: Props) => {
@@ -56,6 +64,9 @@ const GlobalProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User>(initialContextValue.user);
   const [tasks, setTasks] = useState<Task[]>(initialContextValue.tasks);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+  const [notifications, setNotifications] = useState<NotificationsInterface[]>(
+    initialContextValue.notifications
+  );
 
   const toggleTheme = () => {
     setIsDarkMode((prevTheme) => !prevTheme);
@@ -77,6 +88,8 @@ const GlobalProvider = ({ children }: Props) => {
     themeStyles,
     tasks,
     setTasks,
+    notifications,
+    setNotifications,
   };
 
   return (

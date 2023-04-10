@@ -12,6 +12,10 @@ import {
 import TaskCard from "./TaskCard";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { separateTasks } from "../utils/separateTasks";
+import {
+  cancelNotifications,
+  postPoneNotifications,
+} from "../utils/notifications";
 
 let styles: any = null;
 
@@ -35,9 +39,18 @@ const TaskList = ({
   const sortedTasks = separateTasks(tasks, status, daily);
 
   const handleOnPress = async (method: UpdateMethod, id: string) => {
-    if (method === "COMPLETE") setTasks(await completeTask(id));
-    if (method === "POSTPONE") setTasks(await postPoneTask(id));
-    if (method === "REMOVE") setTasks(await removeTask(id));
+    if (method === "COMPLETE") {
+      setTasks(await completeTask(id));
+      cancelNotifications(id);
+    }
+    if (method === "POSTPONE") {
+      setTasks(await postPoneTask(id));
+      postPoneNotifications(id);
+    }
+    if (method === "REMOVE") {
+      setTasks(await removeTask(id));
+      cancelNotifications(id);
+    }
   };
 
   if (sortedTasks.length < 1) {

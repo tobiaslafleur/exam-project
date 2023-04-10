@@ -29,7 +29,7 @@ function BottomTabs() {
         component={Home}
         options={{
           headerShown: false,
-          tabBarLabel: "Home",
+          tabBarLabel: "Hem",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
@@ -40,7 +40,7 @@ function BottomTabs() {
         component={NewTask}
         options={{
           headerShown: false,
-          tabBarLabel: "New Task",
+          tabBarLabel: "Ny Uppgift",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="plus-circle"
@@ -55,7 +55,7 @@ function BottomTabs() {
         component={Overview}
         options={{
           headerShown: false,
-          tabBarLabel: "Overview",
+          tabBarLabel: "Överblick",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="eye" color={color} size={size} />
           ),

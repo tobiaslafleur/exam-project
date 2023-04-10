@@ -5,20 +5,19 @@ import CustomTimeAndDay from "../../components/CustomTimeAndDay";
 import CustomPriority from "../../components/CustomPriority";
 import { GlobalContext } from "../../context/GlobalContext";
 import { createTask } from "../../utils/asyncStorage";
-import * as Notifications from "expo-notifications";
 
 import "react-native-get-random-values";
 import { v4 } from "uuid";
 import { TaskRank } from "../../interfaces/interfaces";
-import { formatDistance } from "date-fns";
-import { sv } from "date-fns/locale";
+import { schedulePushNotifications } from "../../utils/notifications";
 
 const NewTask = ({ navigation }: any) => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [priority, setPriority] = useState<TaskRank>("COULD");
   const [datetime, setDatetime] = useState<Date>(new Date());
-  const { themeStyles, setTasks } = useContext(GlobalContext);
+  const { themeStyles, setTasks, notifications, setNotifications } =
+    useContext(GlobalContext);
 
   const setTitleCallback = useCallback(
     (title: string) => {
@@ -69,6 +68,7 @@ const NewTask = ({ navigation }: any) => {
 
     setTitle("");
     setDescription("");
+    setDatetime(new Date());
 
     navigation.navigate("Home");
 
@@ -131,61 +131,6 @@ const NewTask = ({ navigation }: any) => {
       </Pressable>
     </ScrollView>
   );
-};
-
-async function schedulePushNotifications(
-  title: string,
-  description: string,
-  datetime: Date,
-  id: string
-) {
-  let notifications = new Array<string>();
-
-  const timeStamps: customDate[] = [
-    //{ hours: 0, minutes: 5 },
-    //{ hours: 0, minutes: 15 },
-    //{ hours: 0, minutes: 30 },
-    { hours: 1, minutes: 0 },
-    { hours: 2, minutes: 0 },
-  ];
-
-  timeStamps.map(async (time) => {
-    const newDate = new Date(datetime);
-
-    newDate.setHours(
-      newDate.getHours() - time.hours,
-      newDate.getMinutes() - time.minutes
-    );
-
-    if (newDate > new Date(Date.now())) {
-      const notification = await Notifications.scheduleNotificationAsync({
-        content: {
-          title: `Påminnelse`,
-          body: `Om ${formatDistance(newDate, datetime, {
-            locale: sv,
-          })} ska du "${title}"`,
-          sound: "default",
-          data: {
-            data: description,
-          },
-        },
-        trigger: {
-          seconds: 2,
-        },
-      });
-
-      notifications.push(notification);
-    }
-  });
-
-  console.log(await Notifications.getAllScheduledNotificationsAsync());
-
-  //console.log(await Notifications.cancelAllScheduledNotificationsAsync());
-}
-
-type customDate = {
-  hours: number;
-  minutes: number;
 };
 
 export default NewTask;
