@@ -16,7 +16,7 @@ const CustomInput = ({
     <View style={{ paddingBottom: 20 }}>
       <Text
         style={{
-          fontSize: 20,
+          fontSize: 18,
           fontWeight: "700",
           color: themeStyles.text,
           paddingBottom: 10,

@@ -1,16 +1,10 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import * as Progress from "react-native-progress";
 import { getGreeting } from "../../utils/getGreeting";
 import Tasks from "../../components/Tasks";
-import { clearStorage, createTask, getTasks } from "../../utils/asyncStorage";
+import { getTasks } from "../../utils/asyncStorage";
 import { useTasks } from "../../utils/useTasks";
 
 const Home = () => {
@@ -19,7 +13,7 @@ const Home = () => {
   const [progress, todayTasks, todayTasksCompleted] = useTasks(tasks);
 
   useEffect(() => {
-    if (user) setGreeting(getGreeting(user.firstName));
+    if (user) setGreeting(getGreeting());
   }, [user]);
 
   useEffect(() => {
@@ -29,12 +23,6 @@ const Home = () => {
 
     fn();
   }, []);
-
-  const addTask = async () => {
-    const tasks = clearStorage();
-
-    setTasks(tasks);
-  };
 
   return (
     <ScrollView
@@ -56,8 +44,11 @@ const Home = () => {
       </Text>
       <View style={{ display: "flex", width: "100%", marginTop: 32 }}>
         <Text style={{ marginBottom: 10, color: themeStyles.text }}>
-          You have completed {todayTasksCompleted} out of {todayTasks} tasks
-          today!
+          {todayTasks === 0
+            ? "Du har inga uppgifter planerade idag!"
+            : todayTasks === 1
+            ? `Du har klarat din dagliga uppgift!`
+            : `Du har klarat ${todayTasksCompleted} av ${todayTasks} uppgifter idag!`}
         </Text>
         <Progress.Bar
           style={{ opacity: 0.8 }}
@@ -76,31 +67,11 @@ const Home = () => {
           }
         />
       </View>
-      <Tasks title="Current tasks" status="NOT_COMPLETED" />
-      <Tasks title="Recent tasks" status="COMPLETED" />
-      <TouchableOpacity style={styles.button} onPress={() => addTask()}>
-        <Text>Reset Async Storage</Text>
-      </TouchableOpacity>
+      <Tasks title="Dagens uppgifter" status="NOT_COMPLETED" daily />
+      <Tasks title="Kommande uppgifter" status="NOT_COMPLETED" />
+      <Tasks title="Tidigare uppgifter" status="COMPLETED" />
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: 10,
-  },
-  button: {
-    alignItems: "center",
-    backgroundColor: "#DDDDDD",
-    padding: 10,
-    marginTop: 20,
-  },
-  countContainer: {
-    alignItems: "center",
-    padding: 10,
-  },
-});
 
 export default Home;

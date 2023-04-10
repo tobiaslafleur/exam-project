@@ -14,6 +14,11 @@ interface Props {
   children: ReactNode;
 }
 
+type NotificationsInterface = {
+  id: string;
+  notifications: string[];
+};
+
 interface Task extends React.PropsWithChildren {
   id: string;
   title: string;
@@ -40,6 +45,11 @@ interface Input {
   placeholder: string;
   multiline?: boolean;
 }
+
+type customDate = {
+  hours: number;
+  minutes: number;
+};
 
 type UpdateMethod = "POSTPONE" | "COMPLETE" | "REMOVE";
 
@@ -69,4 +79,6 @@ export {
   Button,
   TaskRank,
   UpdateMethod,
+  customDate,
+  NotificationsInterface,
 };

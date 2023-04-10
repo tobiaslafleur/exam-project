@@ -1,7 +1,7 @@
-import { Text, View, Button } from "react-native";
+import { Text, View, Pressable } from "react-native";
 import React, { useState } from "react";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { format } from "date-fns";
+import { intlFormat } from "date-fns";
 import { Datetime } from "../interfaces/interfaces";
 
 const CustomTimeAndDay = ({ onSetDate }: Datetime) => {
@@ -24,28 +24,48 @@ const CustomTimeAndDay = ({ onSetDate }: Datetime) => {
   };
 
   return (
-    <View
-      style={{
-        padding: 20,
-        flex: 1,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <View style={{ paddingBottom: 20 }}>
       <Text
         style={{
-          fontSize: 24,
-          fontWeight: "bold",
-          marginBottom: 20,
+          fontSize: 18,
+          fontWeight: "700",
+          marginBottom: 10,
           color: "white",
         }}
       >
-        {selectedDate
-          ? format(selectedDate, "dd/LL/yyyy - HH:mm")
-          : "No date selected"}
+        Välj datum och tid
       </Text>
-      <Button title="Select a date" onPress={showDatePicker} />
+      <Pressable
+        style={{
+          width: "100%",
+          backgroundColor: "rgba(128,128,128, 0.35)",
+          height: 50,
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: 5,
+        }}
+        onPress={showDatePicker}
+      >
+        <Text
+          style={{
+            fontSize: 16,
+            color: "white",
+            fontWeight: "bold",
+          }}
+        >
+          {selectedDate
+            ? intlFormat(selectedDate, {
+                weekday: "short",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+              })
+            : "Ingen tid vald"}
+        </Text>
+      </Pressable>
+
       <DateTimePickerModal
         date={selectedDate}
         isVisible={datePickerVisible}

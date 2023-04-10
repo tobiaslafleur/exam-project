@@ -4,6 +4,8 @@ import AsyncStorage, {
 import { Task } from "../interfaces/interfaces";
 
 const { getItem, setItem } = useAsyncStorage("@exam/tasks");
+const { getItem: getPoints, setItem: setPoints } =
+  useAsyncStorage("@exam/points");
 
 export const createTask = async (task: Task) => {
   const currentTasks = await getTasks();
@@ -13,17 +15,74 @@ export const createTask = async (task: Task) => {
 
   await setItem(json);
 
-  return tasks;
+  return getTasks();
 };
 
 export const getTask = async (id: string) => {
   const currentTasks = await getTasks();
 
-  currentTasks.map((task) => {
+  for (let i = 0; i < currentTasks.length; i++) {
+    if (currentTasks[i].id === id) {
+      return currentTasks[i];
+    }
+  }
+};
+
+export const completeTask = async (id: string) => {
+  const currentTasks = await getTasks();
+
+  currentTasks.map(async (task) => {
     if (task.id === id) {
-      return task;
+      task.status = "COMPLETED";
+
+      let points = await getUserPoints();
+
+      points = points + task.points;
+
+      await setPoints(JSON.stringify(points));
     }
   });
+
+  const json = JSON.stringify(currentTasks);
+
+  await setItem(json);
+
+  return getTasks();
+};
+
+export const postPoneTask = async (id: string) => {
+  const currentTasks = await getTasks();
+
+  currentTasks.map((task) => {
+    if (task.id === id) {
+      const newDate = new Date(task.time);
+      newDate.setDate(newDate.getDate() + 1);
+
+      task.time = newDate;
+    }
+  });
+
+  const json = JSON.stringify(currentTasks);
+
+  await setItem(json);
+
+  return getTasks();
+};
+
+export const removeTask = async (id: string) => {
+  const currentTasks = await getTasks();
+
+  currentTasks.map((task, index) => {
+    if (task.id === id) {
+      currentTasks.splice(index, 1);
+    }
+  });
+
+  const json = JSON.stringify(currentTasks);
+
+  await setItem(json);
+
+  return getTasks();
 };
 
 export const completeTask = async (id: string) => {
@@ -84,11 +143,24 @@ export const getTasks = async () => {
 
   const tasks: Task[] = await JSON.parse(unparsed);
 
+  tasks.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
   return tasks;
 };
 
+export const getUserPoints = async () => {
+  const unparsed = await getPoints();
+  let points = 0;
+
+  if (unparsed) {
+    const currentPoints = JSON.parse(unparsed);
+    points = currentPoints;
+  }
+
+  return points;
+};
+
 export const clearStorage = () => {
-  AsyncStorage.removeItem("@exam/tasks");
+  AsyncStorage.multiRemove(["@exam/tasks", "@exam/points"]);
 
   return [];
 };

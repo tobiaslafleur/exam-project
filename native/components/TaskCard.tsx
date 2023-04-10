@@ -3,9 +3,9 @@ import React, { useContext } from "react";
 import { Task } from "../interfaces/interfaces";
 import { GlobalContext } from "../context/GlobalContext";
 import { formatRelative } from "date-fns";
-import { enUS, sv } from "date-fns/locale";
+import { sv } from "date-fns/locale";
 
-const TaskCard = ({ title, description, time, priority }: Task) => {
+const TaskCard = ({ title, description, time, priority, status }: Task) => {
   const { themeStyles } = useContext(GlobalContext);
 
   return (
@@ -15,7 +15,9 @@ const TaskCard = ({ title, description, time, priority }: Task) => {
         width: "100%",
         display: "flex",
         backgroundColor:
-          priority === "SHOULD"
+          status === "COMPLETED"
+            ? "rgba(128,128,128, 0.35)"
+            : priority == "SHOULD"
             ? themeStyles.shouldBackground
             : priority === "COULD"
             ? themeStyles.couldBackground

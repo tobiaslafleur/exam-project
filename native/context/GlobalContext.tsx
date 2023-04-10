@@ -1,6 +1,12 @@
 import React, { createContext, useState, useEffect } from "react";
 import { SafeAreaView, StatusBar } from "react-native";
-import { GlobalContextType, Props, Task, User } from "../interfaces/interfaces";
+import {
+  GlobalContextType,
+  NotificationsInterface,
+  Props,
+  Task,
+  User,
+} from "../interfaces/interfaces";
 
 const initialThemeStyles = {
   background: "#E8EDF8",
@@ -42,7 +48,7 @@ const GlobalProvider = ({ children }: Props) => {
     background: "rgba(4, 9, 36, 1)",
     text: "rgba(255, 255, 255, 1)",
     secondary: "rgba(16, 23, 54, 1)",
-    accent: "rgba(65, 183, 162, 1)",
+    accent: "rgba(65, 183, 162, 0.6)",
     shouldBackground: "rgba(235, 148, 19, 0.35)",
     couldBackground: "rgba(65, 183, 162, 0.35)",
     mustBackground: "rgba(223, 84, 84, 0.35)",

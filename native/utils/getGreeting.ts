@@ -1,14 +1,14 @@
-export const getGreeting = (name: string): string => {
+export const getGreeting = (): string => {
   const currentTime = new Date();
   const currentHour = currentTime.getHours();
 
   if (currentHour < 12) {
-    return `God morgon, ${name}!`;
+    return `God morgon!`;
   } else if (currentHour < 18) {
-    return `God eftermiddag, ${name}!`;
+    return `God eftermiddag!`;
   } else if (currentHour < 22) {
-    return `God kväll, ${name}!`;
+    return `God kväll!`;
   } else {
-    return `God natt, ${name}!`;
+    return `God natt!`;
   }
 };

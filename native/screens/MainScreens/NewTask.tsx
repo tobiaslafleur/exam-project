@@ -1,4 +1,4 @@
-import { Pressable, ScrollView, Text } from "react-native";
+import { Button, Pressable, ScrollView, Text } from "react-native";
 import React, { useState, useCallback, useContext } from "react";
 import CustomInput from "../../components/CustomInput";
 import CustomTimeAndDay from "../../components/CustomTimeAndDay";
@@ -9,6 +9,7 @@ import { createTask } from "../../utils/asyncStorage";
 import "react-native-get-random-values";
 import { v4 } from "uuid";
 import { TaskRank } from "../../interfaces/interfaces";
+import { schedulePushNotifications } from "../../utils/notifications";
 
 const NewTask = ({ navigation }: any) => {
   const [title, setTitle] = useState<string>("");
@@ -51,8 +52,10 @@ const NewTask = ({ navigation }: any) => {
 
     if (title === "") return;
 
+    const taskId = v4();
+
     const tasks = await createTask({
-      id: v4(),
+      id: taskId,
       title: title,
       description: final,
       time: datetime,
@@ -66,6 +69,8 @@ const NewTask = ({ navigation }: any) => {
     setDescription("");
 
     navigation.navigate("Home");
+
+    schedulePushNotifications(title, final, datetime, taskId);
   };
 
   return (
@@ -88,23 +93,23 @@ const NewTask = ({ navigation }: any) => {
           paddingBottom: 20,
         }}
       >
-        Create a new task
+        Skapa en ny uppgift
       </Text>
       <CustomInput
-        title="Title"
+        title="Titel"
         onChangeText={setTitleCallback}
-        placeholder="Enter title of the task"
+        placeholder="Ex. Ringa doktorn"
         value={title}
       />
       <CustomInput
         multiline
-        title="Description"
+        title="Beskrivning (valfritt)"
         onChangeText={setDescriptionCallback}
-        placeholder="Describe your task"
+        placeholder="Ex. Fråga doktorn om ny medicin"
         value={description}
       />
       <CustomTimeAndDay onSetDate={setDateTimeCallback} />
-      <CustomPriority title="Select priority" onPress={setPriorityCallback} />
+      <CustomPriority title="Välj prioritet" onPress={setPriorityCallback} />
       <Pressable
         style={{
           width: "100%",
@@ -119,7 +124,7 @@ const NewTask = ({ navigation }: any) => {
         <Text
           style={{ fontSize: 16, fontWeight: "bold", color: themeStyles.text }}
         >
-          Add task
+          Lägg till uppgift
         </Text>
       </Pressable>
     </ScrollView>
