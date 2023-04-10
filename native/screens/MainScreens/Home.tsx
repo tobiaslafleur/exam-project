@@ -19,7 +19,7 @@ const Home = () => {
   const [progress, todayTasks, todayTasksCompleted] = useTasks(tasks);
 
   useEffect(() => {
-    if (user) setGreeting(getGreeting(user.firstName));
+    if (user) setGreeting(getGreeting());
   }, [user]);
 
   useEffect(() => {
@@ -56,8 +56,11 @@ const Home = () => {
       </Text>
       <View style={{ display: "flex", width: "100%", marginTop: 32 }}>
         <Text style={{ marginBottom: 10, color: themeStyles.text }}>
-          You have completed {todayTasksCompleted} out of {todayTasks} tasks
-          today!
+          {todayTasks === 0
+            ? "Du har inga uppgifter planerade idag!"
+            : todayTasks === 1
+            ? `Du har klarat din dagliga uppgift!`
+            : `Du har klarat ${todayTasksCompleted} av ${todayTasks} uppgifter idag!`}
         </Text>
         <Progress.Bar
           style={{ opacity: 0.8 }}
@@ -76,10 +79,11 @@ const Home = () => {
           }
         />
       </View>
-      <Tasks title="Current tasks" status="NOT_COMPLETED" />
-      <Tasks title="Recent tasks" status="COMPLETED" />
+      <Tasks title="Dagens uppgifter" status="NOT_COMPLETED" daily />
+      <Tasks title="Kommande uppgifter" status="NOT_COMPLETED" />
+      <Tasks title="Tidigare uppgifter" status="COMPLETED" />
       <TouchableOpacity style={styles.button} onPress={() => addTask()}>
-        <Text>Reset Async Storage</Text>
+        <Text>Ta bort alla uppgifter</Text>
       </TouchableOpacity>
     </ScrollView>
   );

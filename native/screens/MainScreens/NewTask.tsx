@@ -1,14 +1,17 @@
-import { Pressable, ScrollView, Text } from "react-native";
+import { Button, Pressable, ScrollView, Text } from "react-native";
 import React, { useState, useCallback, useContext } from "react";
 import CustomInput from "../../components/CustomInput";
 import CustomTimeAndDay from "../../components/CustomTimeAndDay";
 import CustomPriority from "../../components/CustomPriority";
 import { GlobalContext } from "../../context/GlobalContext";
 import { createTask } from "../../utils/asyncStorage";
+import * as Notifications from "expo-notifications";
 
 import "react-native-get-random-values";
 import { v4 } from "uuid";
 import { TaskRank } from "../../interfaces/interfaces";
+import { formatDistance } from "date-fns";
+import { sv } from "date-fns/locale";
 
 const NewTask = ({ navigation }: any) => {
   const [title, setTitle] = useState<string>("");
@@ -51,8 +54,10 @@ const NewTask = ({ navigation }: any) => {
 
     if (title === "") return;
 
+    const taskId = v4();
+
     const tasks = await createTask({
-      id: v4(),
+      id: taskId,
       title: title,
       description: final,
       time: datetime,
@@ -66,6 +71,8 @@ const NewTask = ({ navigation }: any) => {
     setDescription("");
 
     navigation.navigate("Home");
+
+    schedulePushNotifications(title, final, datetime, taskId);
   };
 
   return (
@@ -88,23 +95,23 @@ const NewTask = ({ navigation }: any) => {
           paddingBottom: 20,
         }}
       >
-        Create a new task
+        Skapa en ny uppgift
       </Text>
       <CustomInput
-        title="Title"
+        title="Titel"
         onChangeText={setTitleCallback}
-        placeholder="Enter title of the task"
+        placeholder="Ex. Ringa doktorn"
         value={title}
       />
       <CustomInput
         multiline
-        title="Description"
+        title="Beskrivning (valfritt)"
         onChangeText={setDescriptionCallback}
-        placeholder="Describe your task"
+        placeholder="Ex. Fråga doktorn om ny medicin"
         value={description}
       />
       <CustomTimeAndDay onSetDate={setDateTimeCallback} />
-      <CustomPriority title="Select priority" onPress={setPriorityCallback} />
+      <CustomPriority title="Välj prioritet" onPress={setPriorityCallback} />
       <Pressable
         style={{
           width: "100%",
@@ -119,11 +126,66 @@ const NewTask = ({ navigation }: any) => {
         <Text
           style={{ fontSize: 16, fontWeight: "bold", color: themeStyles.text }}
         >
-          Add task
+          Lägg till uppgift
         </Text>
       </Pressable>
     </ScrollView>
   );
+};
+
+async function schedulePushNotifications(
+  title: string,
+  description: string,
+  datetime: Date,
+  id: string
+) {
+  let notifications = new Array<string>();
+
+  const timeStamps: customDate[] = [
+    //{ hours: 0, minutes: 5 },
+    //{ hours: 0, minutes: 15 },
+    //{ hours: 0, minutes: 30 },
+    { hours: 1, minutes: 0 },
+    { hours: 2, minutes: 0 },
+  ];
+
+  timeStamps.map(async (time) => {
+    const newDate = new Date(datetime);
+
+    newDate.setHours(
+      newDate.getHours() - time.hours,
+      newDate.getMinutes() - time.minutes
+    );
+
+    if (newDate > new Date(Date.now())) {
+      const notification = await Notifications.scheduleNotificationAsync({
+        content: {
+          title: `Påminnelse`,
+          body: `Om ${formatDistance(newDate, datetime, {
+            locale: sv,
+          })} ska du "${title}"`,
+          sound: "default",
+          data: {
+            data: description,
+          },
+        },
+        trigger: {
+          seconds: 2,
+        },
+      });
+
+      notifications.push(notification);
+    }
+  });
+
+  console.log(await Notifications.getAllScheduledNotificationsAsync());
+
+  //console.log(await Notifications.cancelAllScheduledNotificationsAsync());
+}
+
+type customDate = {
+  hours: number;
+  minutes: number;
 };
 
 export default NewTask;

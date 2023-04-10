@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { Animated, Text, TouchableOpacity, View } from "react-native";
+import { Animated, Text, TouchableOpacity } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import { GlobalContext } from "../context/GlobalContext";
 import { Status, Task, UpdateMethod } from "../interfaces/interfaces";
@@ -11,10 +11,19 @@ import {
 } from "../utils/asyncStorage";
 import TaskCard from "./TaskCard";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { separateTasks } from "../utils/separateTasks";
 
 let styles: any = null;
 
-const TaskList = ({ tasks, status }: { tasks: Task[]; status: Status }) => {
+const TaskList = ({
+  tasks,
+  status,
+  daily = false,
+}: {
+  tasks: Task[];
+  status: Status;
+  daily?: boolean;
+}) => {
   const { themeStyles, setTasks } = useContext(GlobalContext);
 
   styles = themeStyles;
@@ -23,7 +32,15 @@ const TaskList = ({ tasks, status }: { tasks: Task[]; status: Status }) => {
     getTasks();
   }, []);
 
-  if (tasks.length < 1) {
+  const sortedTasks = separateTasks(tasks, status, daily);
+
+  const handleOnPress = async (method: UpdateMethod, id: string) => {
+    if (method === "COMPLETE") setTasks(await completeTask(id));
+    if (method === "POSTPONE") setTasks(await postPoneTask(id));
+    if (method === "REMOVE") setTasks(await removeTask(id));
+  };
+
+  if (sortedTasks.length < 1) {
     return (
       <Text
         style={{
@@ -34,65 +51,59 @@ const TaskList = ({ tasks, status }: { tasks: Task[]; status: Status }) => {
           opacity: 0.5,
         }}
       >
-        {status === "NOT_COMPLETED"
-          ? "You have no current tasks."
-          : "You have no recent tasks."}
+        {daily
+          ? "Du har inga dagliga uppgifter!"
+          : status === "NOT_COMPLETED"
+          ? "Du har inga kommande uppgifter."
+          : "Du har inga tidigare uppgifter."}
       </Text>
     );
   }
 
-  const handleOnPress = async (method: UpdateMethod, id: string) => {
-    if (method === "COMPLETE") setTasks(await completeTask(id));
-    if (method === "POSTPONE") setTasks(await postPoneTask(id));
-    if (method === "REMOVE") setTasks(await removeTask(id));
-  };
-
   return (
     <>
-      {tasks.map((task, index) => {
-        if (task.status === status) {
-          if (status === "COMPLETED") {
-            return (
-              <TaskCard
-                key={task.id}
-                id={task.id}
-                title={task.title}
-                description={task.description}
-                points={task.points}
-                time={task.time}
-                priority={task.priority}
-                status={task.status}
-              />
-            );
-          }
-
+      {sortedTasks.map((task, index) => {
+        if (status === "COMPLETED") {
           return (
-            <Swipeable
+            <TaskCard
               key={task.id}
-              renderRightActions={(progress, dragX) =>
-                renderRightActions(progress, dragX, task.id, handleOnPress)
-              }
-              renderLeftActions={(progress, dragX) =>
-                renderLeftActions(progress, dragX, task.id, handleOnPress)
-              }
-              friction={1.5}
-              leftThreshold={80}
-              rightThreshold={80}
-              overshootLeft={false}
-              overshootRight={false}
-            >
-              <TaskCard
-                id={task.id}
-                title={task.title}
-                description={task.description}
-                points={task.points}
-                time={task.time}
-                priority={task.priority}
-                status={task.status}
-              />
-            </Swipeable>
+              id={task.id}
+              title={task.title}
+              description={task.description}
+              points={task.points}
+              time={task.time}
+              priority={task.priority}
+              status={task.status}
+            />
           );
         }
+
+        return (
+          <Swipeable
+            key={task.id}
+            renderRightActions={(progress, dragX) =>
+              renderRightActions(progress, dragX, task.id, handleOnPress)
+            }
+            renderLeftActions={(progress, dragX) =>
+              renderLeftActions(progress, dragX, task.id, handleOnPress)
+            }
+            friction={1.5}
+            leftThreshold={80}
+            rightThreshold={80}
+            overshootLeft={false}
+            overshootRight={false}
+          >
+            <TaskCard
+              id={task.id}
+              title={task.title}
+              description={task.description}
+              points={task.points}
+              time={task.time}
+              priority={task.priority}
+              status={task.status}
+            />
+          </Swipeable>
+        );
       })}
     </>
   );

@@ -13,7 +13,7 @@ export const createTask = async (task: Task) => {
 
   await setItem(json);
 
-  return tasks;
+  return getTasks();
 };
 
 export const getTask = async (id: string) => {
@@ -39,7 +39,7 @@ export const completeTask = async (id: string) => {
 
   await setItem(json);
 
-  return currentTasks;
+  return getTasks();
 };
 
 export const postPoneTask = async (id: string) => {
@@ -58,7 +58,7 @@ export const postPoneTask = async (id: string) => {
 
   await setItem(json);
 
-  return currentTasks;
+  return getTasks();
 };
 
 export const removeTask = async (id: string) => {
@@ -74,7 +74,7 @@ export const removeTask = async (id: string) => {
 
   await setItem(json);
 
-  return currentTasks;
+  return getTasks();
 };
 
 export const getTasks = async () => {
@@ -84,6 +84,7 @@ export const getTasks = async () => {
 
   const tasks: Task[] = await JSON.parse(unparsed);
 
+  tasks.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
   return tasks;
 };
 

@@ -7,13 +7,13 @@ const CustomPriority = ({ title, onPress }: Priority) => {
   const [selected, setSelected] = useState<TaskRank>("COULD");
   const { themeStyles } = useContext(GlobalContext);
   return (
-    <View style={{ paddingBottom: 35 }}>
+    <View style={{ paddingBottom: 30 }}>
       <Text
         style={{
           fontSize: 20,
           fontWeight: "700",
           color: themeStyles.text,
-          paddingBottom: 20,
+          paddingBottom: 10,
         }}
       >
         {title}

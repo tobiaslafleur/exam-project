@@ -4,7 +4,15 @@ import { GlobalContext } from "../context/GlobalContext";
 import { Status } from "../interfaces/interfaces";
 import TaskList from "./TaskList";
 
-const Tasks = ({ title, status }: { title: string; status: Status }) => {
+const Tasks = ({
+  title,
+  status,
+  daily = false,
+}: {
+  title: string;
+  status: Status;
+  daily?: boolean;
+}) => {
   const { themeStyles, tasks } = useContext(GlobalContext);
 
   return (
@@ -28,7 +36,7 @@ const Tasks = ({ title, status }: { title: string; status: Status }) => {
         >
           {title}
         </Text>
-        <Text
+        {/* <Text
           style={{
             fontSize: 12,
             fontWeight: "400",
@@ -37,9 +45,9 @@ const Tasks = ({ title, status }: { title: string; status: Status }) => {
           }}
         >
           Show more
-        </Text>
+        </Text> */}
       </View>
-      <TaskList tasks={tasks} status={status} />
+      <TaskList tasks={tasks} status={status} daily={daily} />
     </View>
   );
 };
