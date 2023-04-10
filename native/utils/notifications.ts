@@ -13,6 +13,7 @@ export async function schedulePushNotifications(
   let tempNotifications = new Array<string>();
 
   const timeStamps: customDate[] = [
+    { hours: 0, minutes: 0 },
     { hours: 0, minutes: 5 },
     { hours: 0, minutes: 15 },
     { hours: 0, minutes: 30 },
@@ -31,13 +32,20 @@ export async function schedulePushNotifications(
     if (newDate > new Date(Date.now())) {
       const notification = await Notifications.scheduleNotificationAsync({
         content: {
-          title: `Påminnelse`,
+          title:
+            time.minutes === 0 && time.hours === 0
+              ? `Nu ska du "${title}"`
+              : time.minutes === 5 && time.hours === 0
+              ? `"${title}" om 5 minuter`
+              : `Påminnelse`,
           body:
-            time.minutes === 5
-              ? `Om ${formatDistance(newDate, datetime, {
+            time.minutes === 0 && time.hours === 0
+              ? description
+              : time.minutes === 5 && time.hours === 0
+              ? description
+              : `Om ${formatDistance(newDate, datetime, {
                   locale: sv,
-                })} ska du "${title}"`
-              : description,
+                })} ska du "${title}"`,
           sound: "default",
           data: {
             id: id,

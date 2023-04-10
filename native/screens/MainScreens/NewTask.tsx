@@ -67,7 +67,6 @@ const NewTask = ({ navigation }: any) => {
 
     setTitle("");
     setDescription("");
-    setDatetime(new Date());
 
     navigation.navigate("Home");
 

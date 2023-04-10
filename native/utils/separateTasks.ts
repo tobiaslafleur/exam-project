@@ -22,7 +22,7 @@ export function separateTasks(tasks: Task[], status: Status, daily: boolean) {
 
   if (status === "NOT_COMPLETED") return currentTasks;
 
-  return completedTasks;
+  return completedTasks.splice(0, 5);
 }
 
 export function getTaskByStatus(tasks: Task[], status: Status) {

@@ -22,9 +22,7 @@ function App() {
       });
 
     responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response);
-      });
+      Notifications.addNotificationResponseReceivedListener((response) => {});
 
     return () => {
       Notifications.removeNotificationSubscription(
