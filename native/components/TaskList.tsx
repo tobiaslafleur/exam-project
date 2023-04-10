@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { Animated, Text, TouchableOpacity } from "react-native";
+import { Animated, Text, TouchableOpacity, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import { GlobalContext } from "../context/GlobalContext";
 import { Status, Task, UpdateMethod } from "../interfaces/interfaces";
@@ -72,6 +72,12 @@ const TaskList = ({
       </Text>
     );
   }
+
+  const handleOnPress = async (method: UpdateMethod, id: string) => {
+    if (method === "COMPLETE") setTasks(await completeTask(id));
+    if (method === "POSTPONE") setTasks(await postPoneTask(id));
+    if (method === "REMOVE") setTasks(await removeTask(id));
+  };
 
   return (
     <>
