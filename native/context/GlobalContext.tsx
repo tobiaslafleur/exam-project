@@ -27,8 +27,6 @@ const initialContextValue: GlobalContextType = {
   themeStyles: initialThemeStyles,
   tasks: [],
   setTasks: () => {},
-  notifications: [],
-  setNotifications: () => {},
 };
 
 const GlobalProvider = ({ children }: Props) => {
@@ -50,7 +48,7 @@ const GlobalProvider = ({ children }: Props) => {
     background: "rgba(4, 9, 36, 1)",
     text: "rgba(255, 255, 255, 1)",
     secondary: "rgba(16, 23, 54, 1)",
-    accent: "rgba(65, 183, 162, 1)",
+    accent: "rgba(65, 183, 162, 0.6)",
     shouldBackground: "rgba(235, 148, 19, 0.35)",
     couldBackground: "rgba(65, 183, 162, 0.35)",
     mustBackground: "rgba(223, 84, 84, 0.35)",
@@ -64,9 +62,6 @@ const GlobalProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User>(initialContextValue.user);
   const [tasks, setTasks] = useState<Task[]>(initialContextValue.tasks);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
-  const [notifications, setNotifications] = useState<NotificationsInterface[]>(
-    initialContextValue.notifications
-  );
 
   const toggleTheme = () => {
     setIsDarkMode((prevTheme) => !prevTheme);
@@ -88,8 +83,6 @@ const GlobalProvider = ({ children }: Props) => {
     themeStyles,
     tasks,
     setTasks,
-    notifications,
-    setNotifications,
   };
 
   return (

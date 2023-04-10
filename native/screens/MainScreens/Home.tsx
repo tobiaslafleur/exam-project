@@ -1,18 +1,11 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import * as Progress from "react-native-progress";
 import { getGreeting } from "../../utils/getGreeting";
 import Tasks from "../../components/Tasks";
-import { clearStorage, getTasks } from "../../utils/asyncStorage";
+import { getTasks } from "../../utils/asyncStorage";
 import { useTasks } from "../../utils/useTasks";
-import * as Notifications from "expo-notifications";
 
 const Home = () => {
   const { themeStyles, user, tasks, setTasks } = useContext(GlobalContext);
@@ -30,12 +23,6 @@ const Home = () => {
 
     fn();
   }, []);
-
-  const addTask = async () => {
-    const tasks = clearStorage();
-
-    setTasks(tasks);
-  };
 
   return (
     <ScrollView
@@ -83,45 +70,8 @@ const Home = () => {
       <Tasks title="Dagens uppgifter" status="NOT_COMPLETED" daily />
       <Tasks title="Kommande uppgifter" status="NOT_COMPLETED" />
       <Tasks title="Tidigare uppgifter" status="COMPLETED" />
-      <TouchableOpacity style={styles.button} onPress={() => addTask()}>
-        <Text>Ta bort alla uppgifter</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={async () =>
-          console.log(await Notifications.getAllScheduledNotificationsAsync())
-        }
-      >
-        <Text>Print all notifications</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={async () =>
-          await Notifications.cancelAllScheduledNotificationsAsync()
-        }
-      >
-        <Text>Remove all notifications</Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: 10,
-  },
-  button: {
-    alignItems: "center",
-    backgroundColor: "#DDDDDD",
-    padding: 10,
-    marginTop: 20,
-  },
-  countContainer: {
-    alignItems: "center",
-    padding: 10,
-  },
-});
 
 export default Home;

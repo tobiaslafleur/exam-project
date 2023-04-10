@@ -1,5 +1,5 @@
 import { isToday } from "date-fns";
-import { Status, Task } from "../interfaces/interfaces";
+import { Status, Task, TaskRank } from "../interfaces/interfaces";
 
 export function separateTasks(tasks: Task[], status: Status, daily: boolean) {
   const dailyTasks = new Array<Task>();
@@ -23,4 +23,32 @@ export function separateTasks(tasks: Task[], status: Status, daily: boolean) {
   if (status === "NOT_COMPLETED") return currentTasks;
 
   return completedTasks;
+}
+
+export function getTaskByStatus(tasks: Task[], status: Status) {
+  const taskArray = new Array<Task>();
+
+  tasks.map((task) => {
+    if (task.status === status) {
+      taskArray.push(task);
+    }
+  });
+
+  return taskArray;
+}
+
+export function getTasksLengthByStatusAndPriority(
+  tasks: Task[],
+  status: Status,
+  priority: TaskRank
+) {
+  const taskArray = new Array<Task>();
+
+  tasks.map((task) => {
+    if (task.status === status && task.priority === priority) {
+      taskArray.push(task);
+    }
+  });
+
+  return taskArray.length;
 }

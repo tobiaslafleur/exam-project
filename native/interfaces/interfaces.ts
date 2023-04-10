@@ -8,8 +8,6 @@ interface GlobalContextType {
   themeStyles: any;
   tasks: Task[];
   setTasks: (tasks: Task[]) => void;
-  notifications: NotificationsInterface[];
-  setNotifications: (notifications: NotificationsInterface[]) => void;
 }
 
 interface Props {

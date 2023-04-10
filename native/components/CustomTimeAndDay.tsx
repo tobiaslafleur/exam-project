@@ -1,14 +1,12 @@
-import { Text, View, Button, Pressable } from "react-native";
-import React, { useContext, useState } from "react";
+import { Text, View, Pressable } from "react-native";
+import React, { useState } from "react";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { intlFormat } from "date-fns";
 import { Datetime } from "../interfaces/interfaces";
-import { GlobalContext } from "../context/GlobalContext";
 
 const CustomTimeAndDay = ({ onSetDate }: Datetime) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [datePickerVisible, setDatePickerVisible] = useState(false);
-  const { themeStyles } = useContext(GlobalContext);
 
   const showDatePicker = () => {
     setDatePickerVisible(true);
@@ -29,7 +27,7 @@ const CustomTimeAndDay = ({ onSetDate }: Datetime) => {
     <View style={{ paddingBottom: 20 }}>
       <Text
         style={{
-          fontSize: 20,
+          fontSize: 18,
           fontWeight: "700",
           marginBottom: 10,
           color: "white",

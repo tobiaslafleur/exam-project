@@ -16,8 +16,7 @@ const NewTask = ({ navigation }: any) => {
   const [description, setDescription] = useState<string>("");
   const [priority, setPriority] = useState<TaskRank>("COULD");
   const [datetime, setDatetime] = useState<Date>(new Date());
-  const { themeStyles, setTasks, notifications, setNotifications } =
-    useContext(GlobalContext);
+  const { themeStyles, setTasks } = useContext(GlobalContext);
 
   const setTitleCallback = useCallback(
     (title: string) => {

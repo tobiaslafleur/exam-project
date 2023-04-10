@@ -4,6 +4,8 @@ import AsyncStorage, {
 import { Task } from "../interfaces/interfaces";
 
 const { getItem, setItem } = useAsyncStorage("@exam/tasks");
+const { getItem: getPoints, setItem: setPoints } =
+  useAsyncStorage("@exam/points");
 
 export const createTask = async (task: Task) => {
   const currentTasks = await getTasks();
@@ -29,9 +31,15 @@ export const getTask = async (id: string) => {
 export const completeTask = async (id: string) => {
   const currentTasks = await getTasks();
 
-  currentTasks.map((task) => {
+  currentTasks.map(async (task) => {
     if (task.id === id) {
       task.status = "COMPLETED";
+
+      let points = await getUserPoints();
+
+      points = points + task.points;
+
+      await setPoints(JSON.stringify(points));
     }
   });
 
@@ -88,8 +96,20 @@ export const getTasks = async () => {
   return tasks;
 };
 
+export const getUserPoints = async () => {
+  const unparsed = await getPoints();
+  let points = 0;
+
+  if (unparsed) {
+    const currentPoints = JSON.parse(unparsed);
+    points = currentPoints;
+  }
+
+  return points;
+};
+
 export const clearStorage = () => {
-  AsyncStorage.removeItem("@exam/tasks");
+  AsyncStorage.multiRemove(["@exam/tasks", "@exam/points"]);
 
   return [];
 };
