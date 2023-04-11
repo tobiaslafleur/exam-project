@@ -10,8 +10,6 @@ export async function schedulePushNotifications(
   datetime: Date,
   id: string
 ) {
-  let tempNotifications = new Array<string>();
-
   const timeStamps: customDate[] = [
     { hours: 0, minutes: 0 },
     { hours: 0, minutes: 5 },
@@ -30,7 +28,7 @@ export async function schedulePushNotifications(
     );
 
     if (newDate > new Date(Date.now())) {
-      const notification = await Notifications.scheduleNotificationAsync({
+      await Notifications.scheduleNotificationAsync({
         content: {
           title:
             time.minutes === 0 && time.hours === 0
@@ -55,8 +53,6 @@ export async function schedulePushNotifications(
           date: newDate,
         },
       });
-
-      tempNotifications.push(notification);
     }
   });
 }

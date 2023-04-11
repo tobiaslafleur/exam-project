@@ -46,7 +46,7 @@ const Home = () => {
         <Text style={{ marginBottom: 10, color: themeStyles.text }}>
           {todayTasks === 0
             ? "Du har inga uppgifter planerade idag!"
-            : todayTasks === 1
+            : todayTasks === 1 && todayTasksCompleted === 1
             ? `Du har klarat din dagliga uppgift!`
             : `Du har klarat ${todayTasksCompleted} av ${todayTasks} uppgifter idag!`}
         </Text>

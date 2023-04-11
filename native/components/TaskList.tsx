@@ -72,13 +72,6 @@ const TaskList = ({
       </Text>
     );
   }
-
-  const handleOnPress = async (method: UpdateMethod, id: string) => {
-    if (method === "COMPLETE") setTasks(await completeTask(id));
-    if (method === "POSTPONE") setTasks(await postPoneTask(id));
-    if (method === "REMOVE") setTasks(await removeTask(id));
-  };
-
   return (
     <>
       {sortedTasks.map((task, index) => {
