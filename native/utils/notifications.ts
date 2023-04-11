@@ -50,7 +50,7 @@ export async function schedulePushNotifications(
           },
         },
         trigger: {
-          seconds: 2,
+          date: newDate,
         },
       });
     }
