@@ -1,6 +1,9 @@
 import { useContext, useEffect } from "react";
 import { Animated, Text, TouchableOpacity, View } from "react-native";
-import { Swipeable } from "react-native-gesture-handler";
+import {
+  GestureHandlerRootView,
+  Swipeable,
+} from "react-native-gesture-handler";
 import { GlobalContext } from "../context/GlobalContext";
 import { Status, Task, UpdateMethod } from "../interfaces/interfaces";
 import {
@@ -91,30 +94,31 @@ const TaskList = ({
         }
 
         return (
-          <Swipeable
-            key={task.id}
-            renderRightActions={(progress, dragX) =>
-              renderRightActions(progress, dragX, task.id, handleOnPress)
-            }
-            renderLeftActions={(progress, dragX) =>
-              renderLeftActions(progress, dragX, task.id, handleOnPress)
-            }
-            friction={1.5}
-            leftThreshold={80}
-            rightThreshold={80}
-            overshootLeft={false}
-            overshootRight={false}
-          >
-            <TaskCard
-              id={task.id}
-              title={task.title}
-              description={task.description}
-              points={task.points}
-              time={task.time}
-              priority={task.priority}
-              status={task.status}
-            />
-          </Swipeable>
+          <GestureHandlerRootView key={task.id}>
+            <Swipeable
+              renderRightActions={(progress, dragX) =>
+                renderRightActions(progress, dragX, task.id, handleOnPress)
+              }
+              renderLeftActions={(progress, dragX) =>
+                renderLeftActions(progress, dragX, task.id, handleOnPress)
+              }
+              friction={1.5}
+              leftThreshold={80}
+              rightThreshold={80}
+              overshootLeft={false}
+              overshootRight={false}
+            >
+              <TaskCard
+                id={task.id}
+                title={task.title}
+                description={task.description}
+                points={task.points}
+                time={task.time}
+                priority={task.priority}
+                status={task.status}
+              />
+            </Swipeable>
+          </GestureHandlerRootView>
         );
       })}
     </>

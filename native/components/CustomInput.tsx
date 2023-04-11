@@ -38,6 +38,7 @@ const CustomInput = ({
               borderRadius: 5,
               color: themeStyles.text,
               backgroundColor: themeStyles.secondary,
+              textAlignVertical: "top",
             }}
           />
         ) : (

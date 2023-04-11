@@ -1,8 +1,10 @@
-import { Text, View, Pressable } from "react-native";
+import { Text, View, Pressable, Platform } from "react-native";
 import React, { useState } from "react";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { intlFormat } from "date-fns";
+
 import { Datetime } from "../interfaces/interfaces";
+import { intlFormat } from "date-fns";
+import { format } from "date-fns";
 
 const CustomTimeAndDay = ({ onSetDate }: Datetime) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -53,7 +55,9 @@ const CustomTimeAndDay = ({ onSetDate }: Datetime) => {
             fontWeight: "bold",
           }}
         >
-          {selectedDate
+          {Platform.OS === "android" && selectedDate
+            ? format(selectedDate, "MM/dd/yyyy HH:mm")
+            : Platform.OS === "ios" && selectedDate
             ? intlFormat(selectedDate, {
                 weekday: "short",
                 year: "numeric",

@@ -89,7 +89,7 @@ const GlobalProvider = ({ children }: Props) => {
     <GlobalContext.Provider value={contextValue}>
       <StatusBar
         barStyle={isDarkMode ? "light-content" : "dark-content"}
-        backgroundColor={"red"}
+        backgroundColor={themeStyles.background}
       />
       <SafeAreaView
         style={{ flex: 0, backgroundColor: themeStyles.background }}
