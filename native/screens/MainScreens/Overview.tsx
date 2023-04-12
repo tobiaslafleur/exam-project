@@ -33,18 +33,18 @@ const Overview = () => {
       <Text
         style={{ fontSize: 24, fontWeight: "700", color: themeStyles.text }}
       >
-        Överblick
+        Overview
       </Text>
       <View style={{ display: "flex", width: "100%", marginTop: 32 }}>
         <Text
           style={{ fontSize: 18, fontWeight: "600", color: themeStyles.text }}
         >
-          Poängsamling
+          Points collection
         </Text>
         <Text
           style={{ marginBottom: 10, color: themeStyles.text, marginTop: 10 }}
         >
-          {`Du har samlat ${points} poäng utav 1000 möjliga!`}
+          {`You have collected ${points} points out of 1000 possible!`}
         </Text>
         <Progress.Bar
           style={{ opacity: 0.8 }}
@@ -64,8 +64,8 @@ const Overview = () => {
         />
       </View>
       <View style={{ display: "flex", width: "100%" }}>
-        <TaskBoxList title="Oklarade uppgifter" status="NOT_COMPLETED" />
-        <TaskBoxList title="Klarade uppgifter" status="COMPLETED" />
+        <TaskBoxList title="Uncompleted tasks" status="NOT_COMPLETED" />
+        <TaskBoxList title="Completed tasks" status="COMPLETED" />
       </View>
     </ScrollView>
   );

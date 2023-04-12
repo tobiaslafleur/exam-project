@@ -1,5 +1,5 @@
 import { formatDistance } from "date-fns";
-import { sv } from "date-fns/locale";
+import { enUS, sv } from "date-fns/locale";
 import * as Notifications from "expo-notifications";
 import { customDate } from "../interfaces/interfaces";
 import { getTask } from "./asyncStorage";
@@ -32,18 +32,18 @@ export async function schedulePushNotifications(
         content: {
           title:
             time.minutes === 0 && time.hours === 0
-              ? `Nu ska du "${title}"`
+              ? `It's time to "${title}"`
               : time.minutes === 5 && time.hours === 0
-              ? `"${title}" om 5 minuter`
-              : `Påminnelse`,
+              ? `"${title}" in 5 minutes`
+              : `Reminder`,
           body:
             time.minutes === 0 && time.hours === 0
               ? description
               : time.minutes === 5 && time.hours === 0
               ? description
-              : `Om ${formatDistance(newDate, datetime, {
-                  locale: sv,
-                })} ska du "${title}"`,
+              : `In ${formatDistance(newDate, datetime, {
+                  locale: enUS,
+                })} it's time to "${title}"`,
           sound: "default",
           data: {
             id: id,

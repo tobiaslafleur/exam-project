@@ -93,23 +93,23 @@ const NewTask = ({ navigation }: any) => {
           paddingBottom: 20,
         }}
       >
-        Skapa en ny uppgift
+        Create new task
       </Text>
       <CustomInput
-        title="Titel"
+        title="Title"
         onChangeText={setTitleCallback}
-        placeholder="Ex. Ringa doktorn"
+        placeholder="Ex. Call the doctor"
         value={title}
       />
       <CustomInput
         multiline
-        title="Beskrivning (valfritt)"
+        title="Description (optional)"
         onChangeText={setDescriptionCallback}
-        placeholder="Ex. Fråga doktorn om ny medicin"
+        placeholder="Ex. Ask the doctor for new medication"
         value={description}
       />
       <CustomTimeAndDay onSetDate={setDateTimeCallback} />
-      <CustomPriority title="Välj prioritet" onPress={setPriorityCallback} />
+      <CustomPriority title="Choose priority" onPress={setPriorityCallback} />
       <Pressable
         style={{
           width: "100%",
@@ -124,7 +124,7 @@ const NewTask = ({ navigation }: any) => {
         <Text
           style={{ fontSize: 16, fontWeight: "bold", color: themeStyles.text }}
         >
-          Lägg till uppgift
+          Add task
         </Text>
       </Pressable>
     </ScrollView>

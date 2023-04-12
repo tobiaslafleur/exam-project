@@ -68,10 +68,10 @@ const TaskList = ({
         }}
       >
         {daily
-          ? "Du har inga dagliga uppgifter!"
+          ? "You have no daily tasks!"
           : status === "NOT_COMPLETED"
-          ? "Du har inga kommande uppgifter."
-          : "Du har inga tidigare uppgifter."}
+          ? "You have no upcoming tasks."
+          : "You have no previous tasks."}
       </Text>
     );
   }

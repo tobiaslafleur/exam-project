@@ -35,7 +35,7 @@ const CustomTimeAndDay = ({ onSetDate }: Datetime) => {
           color: "white",
         }}
       >
-        Välj datum och tid
+        Choose date and time
       </Text>
       <Pressable
         style={{
@@ -58,15 +58,21 @@ const CustomTimeAndDay = ({ onSetDate }: Datetime) => {
           {Platform.OS === "android" && selectedDate
             ? format(selectedDate, "MM/dd/yyyy HH:mm")
             : Platform.OS === "ios" && selectedDate
-            ? intlFormat(selectedDate, {
-                weekday: "short",
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-              })
-            : "Ingen tid vald"}
+            ? intlFormat(
+                selectedDate,
+                {
+                  weekday: "short",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                },
+                {
+                  locale: "en",
+                }
+              )
+            : "No date & time selected"}
         </Text>
       </Pressable>
 
@@ -77,8 +83,8 @@ const CustomTimeAndDay = ({ onSetDate }: Datetime) => {
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
         locale={"sv"}
-        confirmTextIOS={"Välj"}
-        cancelTextIOS={"Avbryt"}
+        confirmTextIOS={"Choose"}
+        cancelTextIOS={"Cancel"}
       />
     </View>
   );

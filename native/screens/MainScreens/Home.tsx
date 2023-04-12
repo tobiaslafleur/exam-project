@@ -4,7 +4,7 @@ import { GlobalContext } from "../../context/GlobalContext";
 import * as Progress from "react-native-progress";
 import { getGreeting } from "../../utils/getGreeting";
 import Tasks from "../../components/Tasks";
-import { getTasks } from "../../utils/asyncStorage";
+import { clearStorage, getTasks } from "../../utils/asyncStorage";
 import { useTasks } from "../../utils/useTasks";
 
 const Home = () => {
@@ -45,10 +45,10 @@ const Home = () => {
       <View style={{ display: "flex", width: "100%", marginTop: 32 }}>
         <Text style={{ marginBottom: 10, color: themeStyles.text }}>
           {todayTasks === 0
-            ? "Du har inga uppgifter planerade idag!"
+            ? "You have no planned tasks today!"
             : todayTasks === 1 && todayTasksCompleted === 1
-            ? `Du har klarat din dagliga uppgift!`
-            : `Du har klarat ${todayTasksCompleted} av ${todayTasks} uppgifter idag!`}
+            ? `You have completed your daily task!`
+            : `You have completed ${todayTasksCompleted} of ${todayTasks} tasks today!`}
         </Text>
         <Progress.Bar
           style={{ opacity: 0.8 }}
@@ -67,9 +67,9 @@ const Home = () => {
           }
         />
       </View>
-      <Tasks title="Dagens uppgifter" status="NOT_COMPLETED" daily />
-      <Tasks title="Kommande uppgifter" status="NOT_COMPLETED" />
-      <Tasks title="Tidigare uppgifter" status="COMPLETED" />
+      <Tasks title="Daily tasks" status="NOT_COMPLETED" daily />
+      <Tasks title="Upcoming tasks" status="NOT_COMPLETED" />
+      <Tasks title="Previous tasks" status="COMPLETED" />
     </ScrollView>
   );
 };

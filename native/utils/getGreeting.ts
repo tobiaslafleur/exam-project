@@ -3,12 +3,12 @@ export const getGreeting = (): string => {
   const currentHour = currentTime.getHours();
 
   if (currentHour < 12) {
-    return `God morgon!`;
+    return `Good morning!`;
   } else if (currentHour < 18) {
-    return `God eftermiddag!`;
+    return `Good afternoon!`;
   } else if (currentHour < 22) {
-    return `God kväll!`;
+    return `Good evening!`;
   } else {
-    return `God natt!`;
+    return `Good night!`;
   }
 };
